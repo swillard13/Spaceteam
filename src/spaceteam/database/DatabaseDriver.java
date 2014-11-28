@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class DatabaseDriver {
-	public ArrayList<HighScore> getHighScores() {
+
+	public static ArrayList<HighScore> getHighScores() {
 		GetHighScores ghs = new GetHighScores();
 		ghs.run();
 		return ghs.getList();
 	}
 	
-	public boolean addHighScore(HighScore hs) {
+	public static boolean addHighScore(HighScore hs) {
 		if (hs == null) {
 			return false;
 		}
@@ -20,10 +21,10 @@ public class DatabaseDriver {
 		return ahs.getAddedHighScore();
 	}
 	
-	public ArrayList<String> getRandomControl() {
+	public static ArrayList<String> getRandomControl() {
 		GetRandomControl grc = new GetRandomControl();
 		grc.run();
-
+		
 		return grc.getList();
 	}
 }

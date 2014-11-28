@@ -1,11 +1,14 @@
 package spaceteam.shared;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 public abstract class AbstractWidget implements Widget {
 
+	public static final Class[] WIDGET_CLASSES = {ButtonGroupWidget.class, PushButtonWidget.class, SliderWidget.class, ToggleButtonWidget.class};
 	private static final long serialVersionUID = -8797040547028913329L;
 
 	protected static final Random RANDOM = new Random();
@@ -49,7 +52,23 @@ public abstract class AbstractWidget implements Widget {
 	}
 	
 	protected void interactionOccurred(Object value) {
-		
+		for (InteractionListener listener : listeners) {
+			listener.interactionOccurred(value);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Widget generateWidget(String name, String verb) {
+		Class<? extends Widget> clazz = WIDGET_CLASSES[RANDOM.nextInt(WIDGET_CLASSES.length)];
+		Constructor<? extends Widget> constructor;
+		try {
+			constructor = clazz.getDeclaredConstructor(String.class, String.class);
+			return constructor.newInstance(name, verb);
+		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
