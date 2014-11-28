@@ -1,4 +1,4 @@
-package spaceteamDatabase;
+package spaceteam.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

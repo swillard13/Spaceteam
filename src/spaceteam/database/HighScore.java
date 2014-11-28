@@ -1,4 +1,4 @@
-package spaceteamDatabase;
+package spaceteam.database;
 
 public class HighScore {
 	private int score;
