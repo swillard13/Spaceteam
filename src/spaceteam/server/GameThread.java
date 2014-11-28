@@ -1,11 +1,16 @@
 package spaceteam.server;
 
-import spaceteam.server.messages.game.GameData;
+import spaceteam.database.HighScore;
+import spaceteam.server.messages.game.Command;
 import spaceteam.server.messages.game.GameOverMessage;
 import spaceteam.server.messages.game.HealthMessage;
+import spaceteam.server.messages.game.TimeRunOut;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Ananth on 11/22/2014.
@@ -20,15 +25,20 @@ public class GameThread extends Thread
   private PlayerThread player1Thread;
   private PlayerThread player2Thread;
   private GameThread otherGame;
+  private Server server;
 
   private int score = 0;
   private int level = 0;
   private int health;
   private int commandsRemaining;
 
-  public GameThread(Player player1, Player player2) {
+  private Lock lock = new ReentrantLock();
+  private Condition condition = lock.newCondition();
+
+  public GameThread(Player player1, Player player2, Server server) {
     this.player1 = player1;
     this.player2 = player2;
+    this.server = server;
   }
 
   public void setOtherGame(GameThread otherGame) {
@@ -36,23 +46,20 @@ public class GameThread extends Thread
   }
 
   public void generateLevel() {
+    level++;
     health = INITIAL_HEALTH;
     commandsRemaining = INITIAL_COMMANDS;
 
   }
 
   public void run() {
-    player1Thread = new PlayerThread(player1, player2);
-    player2Thread = new PlayerThread(player2, player1);
+    player1Thread = new PlayerThread(player1, player2, this);
+    player2Thread = new PlayerThread(player2, player1, this);
 
     player1Thread.start();
     player2Thread.start();
 
-    while(true) {
-      level++;
-      generateLevel();
-
-    }
+    generateLevel();
   }
 
   public synchronized void decrementHealth() {
@@ -66,8 +73,9 @@ public class GameThread extends Thread
   }
 
   public void triggerGameOver(boolean winner) {
-    GameData gameData = new GameData(score, level, player1.getName(), player2.getName());
-    sendAllMessage(new GameOverMessage(winner, gameData, null)); // TODO: Get list of high scores
+    HighScore highScore = new HighScore(score, player1.getName(), player2.getName());
+    server.getDatabase().addHighScore(highScore);
+    sendAllMessage(new GameOverMessage(winner, highScore, server.getDatabase().getHighScores()));
     player1.terminate();
     player2.terminate();
     player1Thread.interrupt();
@@ -79,14 +87,25 @@ public class GameThread extends Thread
     player2.sendMessage(s);
   }
 
+  public Lock getLock() {
+    return lock;
+  }
+
+  public Condition getCondition() {
+    return condition;
+  }
+
   public class PlayerThread extends Thread
   {
     private Player player;
     private Player teammate;
+    private GameThread gameThread;
+    private Command currCommand;
 
-    public PlayerThread(Player player, Player teammate) {
+    public PlayerThread(Player player, Player teammate, GameThread gameThread) {
       this.player = player;
       this.teammate = teammate;
+      this.gameThread = gameThread;
     }
 
     public void run() {
@@ -101,7 +120,12 @@ public class GameThread extends Thread
     }
 
     private void executeMessage(Object obj) {
+      if(obj instanceof TimeRunOut) {
+        gameThread.decrementHealth();
+      }
+      else if(obj instanceof Command) {
 
+      }
     }
   }
 }

@@ -11,11 +11,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class GetHighScores extends SQLCommand {
 	 ArrayList<HighScore> highScoresList;
 	
-	
-	public GetHighScores(ReentrantLock queryLock) {
-		super(queryLock);
-	}
-	
 	public ArrayList<HighScore> getList() {
 		return highScoresList;
 	}
@@ -31,7 +26,7 @@ public class GetHighScores extends SQLCommand {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(numRacesSQL);
 			
-			highScoresList = new ArrayList<HighScore>();
+			highScoresList = new ArrayList<>();
 			
 			while (rs.next()) {
 				int score = rs.getInt("score");
@@ -39,21 +34,11 @@ public class GetHighScores extends SQLCommand {
 				String player2 = rs.getString("player_2");
 				highScoresList.add(new HighScore(score, player1, player2));
 			}
-			
-			
-			
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
+
+
 		return false;
 	}
 	

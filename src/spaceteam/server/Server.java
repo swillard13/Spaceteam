@@ -1,5 +1,6 @@
 package spaceteam.server;
 
+import spaceteam.database.DatabaseDriver;
 import spaceteam.server.messages.initialization.*;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.util.List;
 public class Server
 {
   private int port;
+  private DatabaseDriver database;
   private ServerSocket serverSocket;
   private List<Player> playerList;
   private GameThread game1;
@@ -25,6 +27,7 @@ public class Server
   public Server(int port) {
     try {
       this.port = port;
+      database = new DatabaseDriver();
       playerList = new ArrayList<>();
       serverSocket = new ServerSocket(port);
       System.out.printf("Connect clients to: %s\n", InetAddress.getLocalHost().getHostAddress());
@@ -34,6 +37,10 @@ public class Server
     catch(IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public DatabaseDriver getDatabase() {
+    return database;
   }
 
   private void waitForPlayers() {
@@ -71,8 +78,8 @@ public class Server
     for(Player p : playerList) {
       p.sendMessage(new GameStarted());
     }
-    game1 = new GameThread(playerList.get(0), playerList.get(1));
-    game2 = new GameThread(playerList.get(2), playerList.get(3));
+    game1 = new GameThread(playerList.get(0), playerList.get(1), this);
+    game2 = new GameThread(playerList.get(2), playerList.get(3), this);
 
     game1.setOtherGame(game2);
     game2.setOtherGame(game1);

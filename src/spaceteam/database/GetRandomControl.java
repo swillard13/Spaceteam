@@ -11,11 +11,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class GetRandomControl extends SQLCommand{
 	 private ArrayList<String> controlInfoList;
 		
-		
-		public GetRandomControl(ReentrantLock queryLock) {
-			super(queryLock);
-		}
-		
 		public ArrayList<String> getList() {
 			return controlInfoList;
 		}
@@ -52,9 +47,9 @@ public class GetRandomControl extends SQLCommand{
 				e.printStackTrace();
 			}
 			
-			
-			
+
+
 			return false;
 		}
-		
+
 }

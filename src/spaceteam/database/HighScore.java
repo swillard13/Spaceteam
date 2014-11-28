@@ -1,10 +1,13 @@
 package spaceteam.database;
 
-public class HighScore {
+import java.io.Serializable;
+
+public class HighScore implements Serializable
+{
 	private int score;
 	private String player1, player2;
 	
-	HighScore (int score, String player1, String player2) {
+	public HighScore (int score, String player1, String player2) {
 		this.score = score;
 		this.player1 = player1;
 		this.player2 = player2;

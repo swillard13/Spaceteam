@@ -1,5 +1,7 @@
 package spaceteam.server.messages.game;
 
+import spaceteam.database.HighScore;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,12 +11,12 @@ import java.util.List;
 public class GameOverMessage implements Serializable
 {
   private boolean winner;
-  private GameData gameData;
-  private List<GameData> highScoreList;
+  private HighScore highScore;
+  private List<HighScore> highScoreList;
 
-  public GameOverMessage(boolean winner, GameData gameData, List<GameData> highScoreList) {
+  public GameOverMessage(boolean winner, HighScore highScore, List<HighScore> highScoreList) {
     this.winner = winner;
-    this.gameData = gameData;
+    this.highScore = highScore;
     this.highScoreList = highScoreList;
   }
 
@@ -22,11 +24,11 @@ public class GameOverMessage implements Serializable
     return winner;
   }
 
-  public GameData getGameData() {
-    return gameData;
+  public HighScore getHighScore() {
+    return highScore;
   }
 
-  public List<GameData> getHighScoreList() {
+  public List<HighScore> getHighScoreList() {
     return highScoreList;
   }
 }

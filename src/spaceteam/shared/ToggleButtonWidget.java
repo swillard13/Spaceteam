@@ -16,7 +16,7 @@ public class ToggleButtonWidget extends AbstractWidget {
 
 	@Override
 	public JComponent getComponent() {
-		JToggleButton button = new JToggleButton(getName());
+		final JToggleButton button = new JToggleButton(getName());
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

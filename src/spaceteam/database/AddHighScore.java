@@ -12,8 +12,7 @@ public class AddHighScore extends SQLCommand {
 	 boolean addedHighScore;
 	
 	
-	public AddHighScore(ReentrantLock queryLock, HighScore hs) {
-		super(queryLock);
+	public AddHighScore(HighScore hs) {
 		newScore = hs;
 		addedHighScore = false;
 	}
