@@ -58,4 +58,9 @@ public class SliderWidget extends AbstractWidget {
 		return panel;
 	}
 
+	@Override
+	public int getRandomValue() {
+		return RANDOM.nextInt(getMax()) + getMin();
+	}
+
 }

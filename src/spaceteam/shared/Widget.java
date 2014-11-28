@@ -13,5 +13,6 @@ public interface Widget extends Serializable, Interactable {
 	int getRandomBits();
 	
 	JComponent getComponent();
-	
+
+	int getRandomValue();
 }

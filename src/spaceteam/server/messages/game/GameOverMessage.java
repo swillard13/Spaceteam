@@ -1,14 +1,14 @@
 package spaceteam.server.messages.game;
 
 import spaceteam.database.HighScore;
+import spaceteam.server.messages.Message;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Ananth on 11/24/2014.
  */
-public class GameOverMessage implements Serializable
+public class GameOverMessage implements Message
 {
   private boolean winner;
   private HighScore highScore;

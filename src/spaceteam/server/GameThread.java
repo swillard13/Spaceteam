@@ -2,6 +2,7 @@ package spaceteam.server;
 
 import spaceteam.database.DatabaseDriver;
 import spaceteam.database.HighScore;
+import spaceteam.server.messages.Message;
 import spaceteam.server.messages.game.Command;
 import spaceteam.server.messages.game.GameOverMessage;
 import spaceteam.server.messages.game.HealthMessage;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -27,12 +29,13 @@ public class GameThread extends Thread
   private final int INITIAL_HEALTH = 10;
   private final int INITIAL_COMMANDS = 20;
 
+  private final Random RANDOM = new Random();
+
   private Player player1;
   private Player player2;
   private PlayerThread player1Thread;
   private PlayerThread player2Thread;
   private GameThread otherGame;
-  private Server server;
 
   private int score = 0;
   private int level = 0;
@@ -60,7 +63,7 @@ public class GameThread extends Thread
   }
   
   private List<Widget> generateDashPieces() {
-	  List<Widget> pieces = new ArrayList<Widget>();
+	  List<Widget> pieces = new ArrayList<>();
 	  for (int i = 0; i < 2 * DASH_PIECES_PER_PLAYER; ++i) {
 		  ArrayList<String> words = DatabaseDriver.getRandomControl();
 		  pieces.add(AbstractWidget.generateWidget(words.get(0), words.get(1)));
@@ -76,6 +79,17 @@ public class GameThread extends Thread
     player2Thread.start();
 
     generateLevel();
+  }
+
+  public void getNewCommand(Player player) {
+    int widgetId = RANDOM.nextInt(dashPieces.size());
+    Widget widget = dashPieces.get(widgetId);
+    int newValue = widget.getRandomValue();
+    Command command = new Command(widgetId, newValue);
+  }
+
+  public void checkCommand() {
+
   }
 
   public synchronized void decrementHealth() {
@@ -98,7 +112,7 @@ public class GameThread extends Thread
     player2Thread.interrupt();
   }
 
-  public void sendAllMessage(Serializable s) {
+  public void sendAllMessage(Message s) {
     player1.sendMessage(s);
     player2.sendMessage(s);
   }
@@ -133,6 +147,10 @@ public class GameThread extends Thread
           e.printStackTrace();
         }
       }
+    }
+
+    public void setCurrCommand(Command c) {
+      this.currCommand = c;
     }
 
     private void executeMessage(Object obj) {

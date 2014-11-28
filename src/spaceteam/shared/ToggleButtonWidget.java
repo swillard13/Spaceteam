@@ -26,4 +26,9 @@ public class ToggleButtonWidget extends AbstractWidget {
 		return button;
 	}
 
+	@Override
+	public int getRandomValue() {
+		return 0;
+	}
+
 }

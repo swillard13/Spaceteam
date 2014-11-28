@@ -53,4 +53,9 @@ public class ButtonGroupWidget extends AbstractWidget {
 		return panel;
 	}
 
+	@Override
+	public int getRandomValue() {
+		return RANDOM.nextInt(getMax()) + getMin();
+	}
+
 }
