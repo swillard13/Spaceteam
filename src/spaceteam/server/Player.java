@@ -48,4 +48,14 @@ public class Player
   public ObjectInputStream getIn() {
     return in;
   }
+
+  public void terminate() {
+    try {
+      out.close();
+      in.close();
+    }
+    catch(IOException e) {
+      e.printStackTrace();
+    }
+  }
 }
