@@ -8,13 +8,6 @@ public abstract class SQLCommand implements Runnable {
 	public static final String DRIVER = "com.mysql.jdbc.Driver";
 	public static final String USER = "root";
 	public static final String PASSWORD = "";
-	protected ReentrantLock queryLock;
-	
-	
-	public SQLCommand(ReentrantLock queryLock)
-	{
-		this.queryLock = queryLock;
-	}
 	
 	@Override
 	public void run() {

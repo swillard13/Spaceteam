@@ -11,11 +11,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class GetHighScores extends SQLCommand {
 	 ArrayList<HighScore> highScoresList;
 	
-	
-	public GetHighScores(ReentrantLock queryLock) {
-		super(queryLock);
-	}
-	
 	public ArrayList<HighScore> getList() {
 		return highScoresList;
 	}
