@@ -339,8 +339,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 * Changes the current command displayed.
 	 */
 	public void displayCommand(String s) {
-		// TODO Auto-generated method stub
-		
+		commandText.setText(s);
 	}
 	
 	/*
