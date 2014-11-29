@@ -18,4 +18,8 @@ public class LevelStart implements Message
     this.widgetList = widgetList;
     this.secondsPerCommand = secondsPerCommand;
   }
+  
+  public int getSeconds() {
+	  return secondsPerCommand;
+  }
 }
