@@ -291,18 +291,33 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	}
 	
 	public void updateHealth(int health) {
-		
+		// TODO Auto-generated method stub
 	}
 	
 	public void endGame(GameOverMessage over) {
-		
+		// TODO Auto-generated method stub
 	}
 	
 	public void completeLevel() {
-		
+		// TODO Auto-generated method stub
 	}
 	
 	public void createLevel(List<Widget> widgetList) {
+		// TODO Auto-generated method stub
+	}
+
+	public void playerJoined() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void sameNameError() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void displayCommand(String s) {
+		// TODO Auto-generated method stub
 		
 	}
 
