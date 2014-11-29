@@ -1,5 +1,7 @@
 package spaceteam.server;
 
+import spaceteam.server.messages.Message;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -23,9 +25,9 @@ public class Player
     this.in = in;
   }
 
-  public synchronized void sendMessage(Serializable serializable) {
+  public synchronized void sendMessage(Message message) {
     try {
-      out.writeObject(serializable);
+      out.writeObject(message);
       out.flush();
     }
     catch(IOException e) {
@@ -47,5 +49,15 @@ public class Player
 
   public ObjectInputStream getIn() {
     return in;
+  }
+
+  public void terminate() {
+    try {
+      out.close();
+      in.close();
+    }
+    catch(IOException e) {
+      e.printStackTrace();
+    }
   }
 }

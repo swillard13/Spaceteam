@@ -1,10 +1,12 @@
 package spaceteam.server;
 
+import spaceteam.database.DatabaseDriver;
 import spaceteam.server.messages.initialization.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class Server
       this.port = port;
       playerList = new ArrayList<>();
       serverSocket = new ServerSocket(port);
+      System.out.printf("Connect clients to: %s\n", InetAddress.getLocalHost().getHostAddress());
       waitForPlayers();
       initializeGame();
     }
