@@ -1,6 +1,7 @@
 package spaceteam.client;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
@@ -11,12 +12,17 @@ import spaceteam.server.messages.game.GameOverMessage;
 import spaceteam.server.messages.game.HealthMessage;
 import spaceteam.server.messages.game.LevelStart;
 import spaceteam.server.messages.game.TimeRunOut;
+import spaceteam.server.messages.initialization.AcceptedPlayer;
+import spaceteam.server.messages.initialization.GameStarted;
 import spaceteam.server.messages.initialization.PlayerInfo;
+import spaceteam.server.messages.initialization.PlayerJoined;
+import spaceteam.server.messages.initialization.SameNameError;
 import spaceteam.shared.Widget;
 
 public class ClientThread extends Thread {
 	private Socket socket;
 	private ObjectOutputStream oos;
+	private ObjectInputStream ois;
 	private PlayerInfo playerInfo;
 	private Timer tt;
 	private int timeLimit;
@@ -35,7 +41,9 @@ public class ClientThread extends Thread {
 		try {
 			socket = new Socket(hostname, port);
 			oos = new ObjectOutputStream(socket.getOutputStream());
+			ois = new ObjectInputStream(socket.getInputStream());
 			oos.writeObject(playerInfo);
+			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -90,6 +98,13 @@ public class ClientThread extends Thread {
 	/*
 	 * Tells the GUI that the player has joined successfully.
 	 */
+	public void acceptedPlayer() {
+		parent.acceptedPlayer();
+	}
+	
+	/*
+	 * Tells the GUI that the player has joined successfully.
+	 */
 	public void playerJoined() {
 		parent.playerJoined();
 	}
@@ -101,6 +116,12 @@ public class ClientThread extends Thread {
 		parent.sameNameError();
 	}
 	
+	/*
+	 * Tells the GUI that the game has started.
+	 */
+	private void gameStarted() {
+		parent.gameStarted();
+	}
 	
 	/*
 	 * Sends a message to the server that the time limit was 
@@ -110,6 +131,7 @@ public class ClientThread extends Thread {
 		TimeRunOut t = new TimeRunOut();
 		try {
 			oos.writeObject(t);
+			oos.flush();
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -123,13 +145,40 @@ public class ClientThread extends Thread {
 		try {
 			Command c = new Command(widgetId, value);
 			oos.writeObject(c);
+			oos.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void run() {
-		// TODO Implement run
+		while (true) {
+			try {
+				Object obj = ois.readObject();
+				
+				if (obj instanceof Command) {
+					setCommand((Command) obj);
+				} else if (obj instanceof LevelStart) {
+					createLevel((LevelStart) obj);
+				} else if (obj instanceof HealthMessage) {
+					updateHealth((HealthMessage) obj);
+				} else if (obj instanceof GameOverMessage) {
+					endGame((GameOverMessage) obj);
+				} else if (obj instanceof AcceptedPlayer) {
+					acceptedPlayer();
+				} else if (obj instanceof GameStarted) {
+					gameStarted();
+				} else if (obj instanceof PlayerJoined) {
+					playerJoined();
+				} else if (obj instanceof SameNameError) {
+					sameNameError();
+				}
+				
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

@@ -321,4 +321,14 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		
 	}
 
+	public void acceptedPlayer() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void gameStarted() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
