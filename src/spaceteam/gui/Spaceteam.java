@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -44,7 +45,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.EmptyBorder;
 
+import spaceteam.chat.ChatClient;
 import spaceteam.client.ClientThread;
+import spaceteam.server.Server;
 import spaceteam.server.messages.game.GameOverMessage;
 import spaceteam.shared.Widget;
 
@@ -65,6 +68,8 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	JLabel enterUsername, commandText, messagesLabel;
 	JButton sendMessageBtn;
 	ClientThread client;
+	ChatClient chat;
+	String hostname;
 	
 	static final String START = "Start Screen";
 	static final String GAMEPLAY = "Gameplay";
@@ -224,6 +229,18 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		sendMessagePanel.add(sendMessageBtn);
 		chatPane.add(sendMessagePanel, BorderLayout.SOUTH);
 		
+		//add action listener to send button
+		sendMessageBtn.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				//make sure list updates
+				messages.add(username.getText() + ": " + userMessage.getText());
+				chatMessages.setListData(messages);
+				//chat.sendFromGUI(message);
+				chat.sendFromGUI(userMessage.getText());
+				userMessage.setText("");
+			}
+		});
+		
 		//add components to the window
 		cardsGeneral.add(startCard, START);
 		
@@ -251,7 +268,16 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	
 	public static void main(String [] args){
 		Spaceteam st = new Spaceteam();
+		System.out.print("Host Name: ");
+		Scanner scan = new Scanner(System.in);
+		st.setHostname(scan.next());
 		st.setVisible(true);
+		scan.close();
+	}
+	
+	public void setHostname(String hostname)
+	{
+		this.hostname = hostname;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -259,12 +285,12 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 			CardLayout cl = (CardLayout)(cardsGeneral.getLayout());
 			cl.show(cardsGeneral, GAMEPLAY);
 			//Send user information to the client!!!
+			createClient();
 		}
 		else if(e.getSource() == waitPlayers){
 			CardLayout cl = (CardLayout)(mainPane.getLayout());
 			cl.show(mainPane, GAME);
 		}
-
 	}
 
 	@Override
@@ -368,9 +394,12 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	/*
 	 * Creates client.
 	 */
-	public void createClient(String name) {
-		//TODO (shelly) figure out port/hostname/ip/whatever to connect to server
-		//client = new ClientThread(this, hostname, port, name);
+
+	public void createClient() {
+		//TODO figure out port/hostname/ip/whatever to connect to server
+		chat = new ChatClient(hostname, Server.CHAT_PORT, username.getText(), 0, messages, chatMessages);
+		client = new ClientThread(this, hostname, 8888, username.getText());
+
 	}
 
 }
