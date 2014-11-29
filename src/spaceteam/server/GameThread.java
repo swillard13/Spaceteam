@@ -7,6 +7,7 @@ import spaceteam.server.messages.Message;
 import spaceteam.server.messages.game.Command;
 import spaceteam.server.messages.game.GameOverMessage;
 import spaceteam.server.messages.game.HealthMessage;
+import spaceteam.server.messages.game.LevelStart;
 import spaceteam.server.messages.game.TimeRunOut;
 import spaceteam.shared.AbstractWidget;
 import spaceteam.shared.Widget;
@@ -61,6 +62,10 @@ public class GameThread extends Thread
     health = INITIAL_HEALTH;
     commandsRemaining = INITIAL_COMMANDS;
     dashPieces = generateDashPieces();
+    player1.sendMessage(new LevelStart(dashPieces.subList(0, DASH_PIECES_PER_PLAYER), 1));
+    player2.sendMessage(new LevelStart(dashPieces.subList(DASH_PIECES_PER_PLAYER, 2 * DASH_PIECES_PER_PLAYER), 1));
+    getNewCommand(player1Thread);
+    getNewCommand(player2Thread);
   }
   
   private List<Widget> generateDashPieces() {
@@ -73,6 +78,10 @@ public class GameThread extends Thread
 	  return pieces;
   }
 
+  public boolean isLevelFinished() {
+	  return commandsRemaining == 0;
+  }
+  
   public void run() {
     player1Thread = new PlayerThread(player1, player2, this);
     player2Thread = new PlayerThread(player2, player1, this);
@@ -80,7 +89,20 @@ public class GameThread extends Thread
     player1Thread.start();
     player2Thread.start();
 
-    generateLevel();
+    while (true) {
+    	generateLevel();
+    	try {
+    		lock.lock();
+			condition.await();
+			lock.unlock();
+			if (!otherGame.isLevelFinished()) {
+	    		otherGame.getCondition().await();
+	    	}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+    }
   }
 
 
