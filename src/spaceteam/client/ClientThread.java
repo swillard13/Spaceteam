@@ -12,7 +12,6 @@ import spaceteam.server.messages.game.HealthMessage;
 import spaceteam.server.messages.game.LevelStart;
 import spaceteam.server.messages.game.TimeRunOut;
 import spaceteam.server.messages.initialization.PlayerInfo;
-import spaceteam.shared.AbstractWidget;
 import spaceteam.shared.Widget;
 
 public class ClientThread extends Thread {
@@ -118,11 +117,12 @@ public class ClientThread extends Thread {
 	}
 	
 	/*
-	 * Sends the piece pressed to the server for evaluation.
+	 * Creates a command object and sends the command to the server for evaluation.
 	 */
-	public void piecePressed(Widget widget) {
+	public void piecePressed(int widgetId, int value) {
 		try {
-			oos.writeObject(widget);
+			Command c = new Command(widgetId, value);
+			oos.writeObject(c);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
