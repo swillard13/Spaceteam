@@ -23,4 +23,8 @@ public class LevelStart implements Message
   public int getSeconds() {
 	  return secondsPerCommand;
   }
+  
+  public List<Widget> getWidgetList() {
+	  return widgetList;
+  }
 }

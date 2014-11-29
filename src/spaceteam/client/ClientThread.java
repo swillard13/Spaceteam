@@ -3,6 +3,12 @@ package spaceteam.client;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import spaceteam.gui.Spaceteam;
+import spaceteam.server.messages.game.Command;
+import spaceteam.server.messages.game.GameOverMessage;
+import spaceteam.server.messages.game.HealthMessage;
+import spaceteam.server.messages.game.LevelStart;
 import spaceteam.server.messages.game.TimeRunOut;
 import spaceteam.server.messages.initialization.PlayerInfo;
 import spaceteam.shared.Widget;
@@ -11,15 +17,16 @@ public class ClientThread extends Thread {
 	private Socket socket;
 	private ObjectOutputStream oos;
 	private PlayerInfo playerInfo;
+	private Timer tt;
 	private int timeLimit;
 	// TODO Add parent connection when GUI is added to repository
-	//private Spaceteam parent;
+	private Spaceteam parent;
 
 	/*
 	 * @constructor
 	 */
-	public ClientThread(/*Spaceteam sp,*/ String hostname, int port, String name) {
-		//parent = sp;
+	public ClientThread(Spaceteam sp, String hostname, int port, String name) {
+		parent = sp;
 		playerInfo = new PlayerInfo(name);
 		timeLimit = 0;
 		try {
@@ -31,10 +38,10 @@ public class ClientThread extends Thread {
 		}
 	}
 	
-	/*
+	
 	public void createLevel(LevelStart start) {
 		timeLimit = start.getSeconds();
-		parent.createLevel(start);
+		parent.createLevel(start.getWidgetList());
 	}
 	
 	public void completeLevel() {
@@ -45,15 +52,23 @@ public class ClientThread extends Thread {
 		parent.updateHealth(health.getCurrHealth());
 	}
 	
-	public void endGame(GameOver over) {
+	public void endGame(GameOverMessage over) {
 		parent.endGame(over);
 	}
 	
-	public void setCommand(Command c) {
+	/*public void setCommand(Command c) {
 		parent.displayCommand(c.getMessage());
-		TimerThread tt = new TimerThread(this, timeLimit);
+		tt = new Timer(this, timeLimit);
+	}*/
+	
+	public void playerJoiner() {
+		//TODO write method
 	}
-	*/
+	
+	public void sameNameError() {
+		//TODO write method
+	}
+	
 	
 	/*
 	 * Sends a message to the server that the time limit was 

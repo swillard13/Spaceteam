@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BoxLayout;
@@ -42,6 +43,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.EmptyBorder;
+
+import spaceteam.server.messages.game.GameOverMessage;
+import spaceteam.shared.Widget;
 
 public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 
@@ -283,6 +287,22 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	public void updateHealth(int health) {
+		
+	}
+	
+	public void endGame(GameOverMessage over) {
+		
+	}
+	
+	public void completeLevel() {
+		
+	}
+	
+	public void createLevel(List<Widget> widgetList) {
 		
 	}
 
