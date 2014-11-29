@@ -66,6 +66,11 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	JButton sendMessageBtn;
 	ClientThread client;
 	
+	static final String START = "Start Screen";
+	static final String GAMEPLAY = "Gameplay";
+	static final String END = "End Screen";
+	static final String GAME = "Game";
+	
 	public Spaceteam(){
 		//setup main window
 		super("Spaceteam");
@@ -220,7 +225,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		chatPane.add(sendMessagePanel, BorderLayout.SOUTH);
 		
 		//add components to the window
-		cardsGeneral.add(startCard, "Start Screen");
+		cardsGeneral.add(startCard, START);
 		
 		gamePane.add(healthPanel);
 		gamePane.add(commandPanel);
@@ -234,14 +239,14 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		gameCard.add(mainPane);
 		gameCard.add(chatPane);
 		
-		cardsGeneral.add(gameCard, "Gameplay");
+		cardsGeneral.add(gameCard, GAMEPLAY);
 		
-		cardsGeneral.add(endCard, "End Screen");
+		cardsGeneral.add(endCard, END);
 		
 		add(cardsGeneral);
 		
 		CardLayout cl = (CardLayout)(cardsGeneral.getLayout());
-		cl.show(cardsGeneral, "Start Screen");
+		cl.show(cardsGeneral, START);
 	}
 	
 	public static void main(String [] args){
@@ -252,12 +257,12 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == continueButton){
 			CardLayout cl = (CardLayout)(cardsGeneral.getLayout());
-			cl.show(cardsGeneral, "Gameplay");
+			cl.show(cardsGeneral, GAMEPLAY);
 			//Send user information to the client!!!
 		}
 		else if(e.getSource() == waitPlayers){
 			CardLayout cl = (CardLayout)(mainPane.getLayout());
-			cl.show(mainPane, "Game");
+			cl.show(mainPane, GAME);
 		}
 
 	}
