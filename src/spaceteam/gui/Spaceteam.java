@@ -180,7 +180,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		timePanel.setPreferredSize(new Dimension(540, 50));
 		timePanel.setBackground(Color.YELLOW);
 		
-		//set up controlsg
+		//set up controls
 		controlPanel = new JPanel();
 		controlPanel.setPreferredSize(new Dimension(540, 400));
 		controlPanel.setBackground(Color.GREEN);
@@ -318,7 +318,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 * Creates the new level.
 	 */
 	public void createLevel(List<Widget> widgetList) {
-		// TODO Auto-generated method stub
+		// TODO (shelly) Auto-generated method stub
 	}
 	
 	/*
@@ -364,7 +364,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 * Creates client.
 	 */
 	public void createClient(String name) {
-		//TODO figure out port/hostname/ip/whatever to connect to server
+		//TODO (shelly) figure out port/hostname/ip/whatever to connect to server
 		//client = new ClientThread(this, hostname, port, name);
 	}
 
