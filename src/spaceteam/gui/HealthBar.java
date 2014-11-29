@@ -1,4 +1,4 @@
-package spaceteam;
+package spaceteam.gui;
 
 import java.awt.Graphics;
 

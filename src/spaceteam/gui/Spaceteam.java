@@ -1,4 +1,4 @@
-package spaceteam;
+package spaceteam.gui;
 
 /*Team Members:
  * Michelle Agcamaran
