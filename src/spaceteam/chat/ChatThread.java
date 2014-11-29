@@ -14,6 +14,7 @@ public class ChatThread extends Thread
 	private Server server;
 	private PrintWriter printWriter;
 	private String username;
+	private String teammateUsername;
 	
 	public ChatThread(Socket socket, Server server)
 	{
@@ -22,6 +23,7 @@ public class ChatThread extends Thread
 			this.socket = socket;
 			this.server = server;
 			printWriter = new PrintWriter(socket.getOutputStream());
+			this.start();
 		} 
 		catch (IOException e) 
 		{
@@ -45,15 +47,20 @@ public class ChatThread extends Thread
 				String message = br.readLine();
 				if (message.contains("USERNAME"))
 				{
-					String[] parts = message.split(":");
+					String[] parts = message.split(": ");
 					username = parts[1];
+					continue;
+				}
+				else if (message.contains("TEAMMATE"))
+				{
+					String[] parts = message.split(": ");
+					teammateUsername = parts[1];
 					continue;
 				}
 				else
 				{
-					//MAKE A METHOD FOR THIS IN THE SERVER CLASS INSTEAD??
-					printWriter.println(message);
-					printWriter.flush();
+					message = "MESSAGE: " + message + " RECIPIENTS: " + teammateUsername;
+					server.sendMessage(message, this);
 				}
 			}
 		}

@@ -44,6 +44,7 @@ public class ClientThread extends Thread {
 			ois = new ObjectInputStream(socket.getInputStream());
 			oos.writeObject(playerInfo);
 			oos.flush();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
