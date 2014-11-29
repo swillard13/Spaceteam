@@ -2,6 +2,7 @@ package spaceteam.server.messages.game;
 
 import spaceteam.server.messages.Message;
 import spaceteam.shared.AbstractWidget;
+import spaceteam.shared.Widget;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.List;
  */
 public class LevelStart implements Message
 {
-  private List<AbstractWidget> widgetList;
+  private List<Widget> widgetList;
   private int secondsPerCommand;
 
-  public LevelStart(List<AbstractWidget> widgetList, int secondsPerCommand) {
+  public LevelStart(List<Widget> widgetList, int secondsPerCommand) {
     this.widgetList = widgetList;
     this.secondsPerCommand = secondsPerCommand;
   }
