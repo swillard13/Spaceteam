@@ -175,8 +175,7 @@ public class ClientThread extends Thread {
 				}
 				
 			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Error reading object from server.");
 			}
 		}
 	}
