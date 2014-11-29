@@ -44,6 +44,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.EmptyBorder;
 
+import spaceteam.client.ClientThread;
 import spaceteam.server.messages.game.GameOverMessage;
 import spaceteam.shared.Widget;
 
@@ -63,6 +64,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	JScrollPane jsp;
 	JLabel enterUsername, commandText, messagesLabel;
 	JButton sendMessageBtn;
+	ClientThread client;
 	
 	public Spaceteam(){
 		//setup main window
@@ -343,7 +345,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	}
 	
 	/*
-	 * Tells the user that they have joined the game.
+	 * Changes the card to the waiting room.
 	 */
 	public void acceptedPlayer() {
 		// TODO Auto-generated method stub
@@ -356,6 +358,14 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	public void gameStarted() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	/*
+	 * Creates client.
+	 */
+	public void createClient(String name) {
+		//TODO figure out port/hostname/ip/whatever to connect to server
+		//client = new ClientThread(this, hostname, port, name);
 	}
 
 }
