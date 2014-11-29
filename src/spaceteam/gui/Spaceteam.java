@@ -178,7 +178,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		timePanel.setPreferredSize(new Dimension(540, 50));
 		timePanel.setBackground(Color.YELLOW);
 		
-		//set up controls
+		//set up controlsg
 		controlPanel = new JPanel();
 		controlPanel.setPreferredSize(new Dimension(540, 400));
 		controlPanel.setBackground(Color.GREEN);
@@ -290,42 +290,70 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		
 	}
 	
+	/*
+	 * Updates the Health bar to the current health.
+	 */
 	public void updateHealth(int health) {
 		// TODO Auto-generated method stub
 	}
 	
+	/*
+	 * Changes the screen to say game over and displays high scores.
+	 */
 	public void endGame(GameOverMessage over) {
 		// TODO Auto-generated method stub
 	}
 	
+	/*
+	 * Tells the player that the level was completed and waits for the 
+	 * signal to start a new level.
+	 */
 	public void completeLevel() {
 		// TODO Auto-generated method stub
 	}
 	
+	/*
+	 * Creates the new level.
+	 */
 	public void createLevel(List<Widget> widgetList) {
 		// TODO Auto-generated method stub
 	}
-
+	
+	/*
+	 * Changes the number of players joined.
+	 */
 	public void playerJoined() {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	/*
+	 * Tells the user to choose a different name.
+	 */
 	public void sameNameError() {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	/*
+	 * Changes the current command displayed.
+	 */
 	public void displayCommand(String s) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	/*
+	 * Tells the user that they have joined the game.
+	 */
 	public void acceptedPlayer() {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	/*
+	 * Begins the game.
+	 */
 	public void gameStarted() {
 		// TODO Auto-generated method stub
 		
