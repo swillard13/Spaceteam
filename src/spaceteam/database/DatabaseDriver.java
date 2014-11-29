@@ -21,7 +21,7 @@ public class DatabaseDriver {
 		return ahs.getAddedHighScore();
 	}
 	
-	public static ArrayList<String> getRandomControl() {
+	public static ArrayList<GetRandomControl.Control> getRandomControl() {
 		GetRandomControl grc = new GetRandomControl();
 		grc.run();
 		

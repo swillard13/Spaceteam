@@ -1,6 +1,7 @@
 package spaceteam.server;
 
 import spaceteam.database.DatabaseDriver;
+import spaceteam.database.GetRandomControl;
 import spaceteam.database.HighScore;
 import spaceteam.server.messages.Message;
 import spaceteam.server.messages.game.Command;
@@ -25,7 +26,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class GameThread extends Thread
 {
   
-  private static final int DASH_PIECES_PER_PLAYER = 6;
+  public static final int DASH_PIECES_PER_PLAYER = 6;
   private final int INITIAL_HEALTH = 10;
   private final int INITIAL_COMMANDS = 20;
 
@@ -64,10 +65,11 @@ public class GameThread extends Thread
   
   private List<Widget> generateDashPieces() {
 	  List<Widget> pieces = new ArrayList<>();
-	  for (int i = 0; i < 2 * DASH_PIECES_PER_PLAYER; ++i) {
-		  ArrayList<String> words = DatabaseDriver.getRandomControl();
-		  pieces.add(AbstractWidget.generateWidget(words.get(0), words.get(1)));
-	  }
+		ArrayList<GetRandomControl.Control> controls = DatabaseDriver.getRandomControl();
+    for(GetRandomControl.Control control : controls) {
+      pieces.add(AbstractWidget.generateWidget(control.getControlName(),
+                                               control.getCommandVerb()));
+    }
 	  return pieces;
   }
 
@@ -81,14 +83,25 @@ public class GameThread extends Thread
     generateLevel();
   }
 
-  public void getNewCommand(Player player) {
+
+  public void getNewCommand(PlayerThread playerThread) {
     int widgetId = RANDOM.nextInt(dashPieces.size());
     Widget widget = dashPieces.get(widgetId);
     int newValue = widget.getRandomValue();
     Command command = new Command(widgetId, newValue);
+    playerThread.setCurrCommand(command);
   }
 
-  public void checkCommand() {
+  public synchronized boolean decrementCommands() {
+    commandsRemaining--;
+    if(commandsRemaining == 0) {
+      triggerLevelFinish();
+      return true;
+    }
+    return false;
+  }
+
+  private void triggerLevelFinish() {
 
   }
 
@@ -151,6 +164,7 @@ public class GameThread extends Thread
 
     public void setCurrCommand(Command c) {
       this.currCommand = c;
+      player.sendMessage(currCommand);
     }
 
     private void executeMessage(Object obj) {
@@ -158,7 +172,12 @@ public class GameThread extends Thread
         gameThread.decrementHealth();
       }
       else if(obj instanceof Command) {
-
+        Command command = (Command) obj;
+        if(command.equals(currCommand)) {
+          if(!gameThread.decrementCommands()) {
+            gameThread.getNewCommand(this);
+          }
+        }
       }
     }
   }
