@@ -45,22 +45,24 @@ public class ChatThread extends Thread
 			while (true)
 			{
 				String message = br.readLine();
-				if (message.contains("USERNAME"))
-				{
-					String[] parts = message.split(": ");
-					username = parts[1];
-					continue;
-				}
-				else if (message.contains("TEAMMATE"))
-				{
-					String[] parts = message.split(": ");
-					teammateUsername = parts[1];
-					continue;
-				}
-				else
-				{
-					message = "MESSAGE: " + message + " RECIPIENTS: " + teammateUsername;
-					server.sendMessage(message, this);
+				if (message != null) {
+					if (message.contains("USERNAME"))
+					{
+						String[] parts = message.split(": ");
+						username = parts[1];
+						continue;
+					}
+					else if (message.contains("TEAMMATE"))
+					{
+						String[] parts = message.split(": ");
+						teammateUsername = parts[1];
+						continue;
+					}
+					else
+					{
+						message = "MESSAGE: " + message + " RECIPIENTS: " + teammateUsername;
+						server.sendMessage(message, this);
+					}
 				}
 			}
 		}

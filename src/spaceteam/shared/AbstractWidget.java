@@ -1,5 +1,7 @@
 package spaceteam.shared;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
@@ -13,7 +15,7 @@ public abstract class AbstractWidget implements Widget {
 
 	protected static final Random RANDOM = new Random();
 	
-	protected final transient List<InteractionListener> listeners;
+	protected transient List<InteractionListener> listeners;
 	
 	private String name;
 	private String verb;
@@ -69,6 +71,11 @@ public abstract class AbstractWidget implements Widget {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	protected void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
+		in.defaultReadObject();
+		listeners = new LinkedList<InteractionListener>();
 	}
 
 }
