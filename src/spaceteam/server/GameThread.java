@@ -26,7 +26,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class GameThread extends Thread
 {
-  
+
   public static final int DASH_PIECES_PER_PLAYER = 6;
   private final int INITIAL_HEALTH = 10;
   private final int INITIAL_COMMANDS = 20;
@@ -62,26 +62,27 @@ public class GameThread extends Thread
     health = INITIAL_HEALTH;
     commandsRemaining = INITIAL_COMMANDS;
     dashPieces = generateDashPieces();
-    player1.sendMessage(new LevelStart(dashPieces.subList(0, DASH_PIECES_PER_PLAYER), 1));
-    player2.sendMessage(new LevelStart(dashPieces.subList(DASH_PIECES_PER_PLAYER, 2 * DASH_PIECES_PER_PLAYER), 1));
+    int commandTime = getCommandTime();
+    player1.sendMessage(new LevelStart(dashPieces.subList(0, DASH_PIECES_PER_PLAYER), commandTime));
+    player2.sendMessage(new LevelStart(dashPieces.subList(DASH_PIECES_PER_PLAYER, 2 * DASH_PIECES_PER_PLAYER), commandTime));
     getNewCommand(player1Thread);
     getNewCommand(player2Thread);
   }
-  
+
   private List<Widget> generateDashPieces() {
-	  List<Widget> pieces = new ArrayList<>();
-		ArrayList<GetRandomControl.Control> controls = DatabaseDriver.getRandomControl();
+    List<Widget> pieces = new ArrayList<>();
+    ArrayList<GetRandomControl.Control> controls = DatabaseDriver.getRandomControl();
     for(GetRandomControl.Control control : controls) {
       pieces.add(AbstractWidget.generateWidget(control.getControlName(),
                                                control.getCommandVerb()));
     }
-	  return pieces;
+    return pieces;
   }
 
   public boolean isLevelFinished() {
-	  return commandsRemaining == 0;
+    return commandsRemaining == 0;
   }
-  
+
   public void run() {
     player1Thread = new PlayerThread(player1, player2, this);
     player2Thread = new PlayerThread(player2, player1, this);
@@ -89,22 +90,26 @@ public class GameThread extends Thread
     player1Thread.start();
     player2Thread.start();
 
-    while (true) {
-    	generateLevel();
-    	try {
-    		lock.lock();
-			condition.await();
-			lock.unlock();
-			if (!otherGame.isLevelFinished()) {
-	    		otherGame.getCondition().await();
-	    	}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+    while(true) {
+      generateLevel();
+      try {
+        lock.lock();
+        condition.await();
+        lock.unlock();
+        if(!otherGame.isLevelFinished()) {
+          otherGame.getCondition().await();
+        }
+      }
+      catch(InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
   }
 
+  public int getCommandTime() {
+    return 10 - (int) Math.sqrt(level) + 6;
+  }
 
   public void getNewCommand(PlayerThread playerThread) {
     int widgetId = RANDOM.nextInt(dashPieces.size());
@@ -117,14 +122,10 @@ public class GameThread extends Thread
   public synchronized boolean decrementCommands() {
     commandsRemaining--;
     if(commandsRemaining == 0) {
-      triggerLevelFinish();
+      condition.notifyAll();
       return true;
     }
     return false;
-  }
-
-  private void triggerLevelFinish() {
-
   }
 
   public synchronized void decrementHealth() {
@@ -141,10 +142,11 @@ public class GameThread extends Thread
     HighScore highScore = new HighScore(score, player1.getName(), player2.getName());
     DatabaseDriver.addHighScore(highScore);
     sendAllMessage(new GameOverMessage(winner, highScore, DatabaseDriver.getHighScores()));
-    player1.terminate();
-    player2.terminate();
     player1Thread.interrupt();
     player2Thread.interrupt();
+    player1.terminate();
+    player2.terminate();
+    condition.notifyAll();
   }
 
   public void sendAllMessage(Message s) {
@@ -192,6 +194,7 @@ public class GameThread extends Thread
     private void executeMessage(Object obj) {
       if(obj instanceof TimeRunOut) {
         gameThread.decrementHealth();
+        gameThread.getNewCommand(this);
       }
       else if(obj instanceof Command) {
         Command command = (Command) obj;

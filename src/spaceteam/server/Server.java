@@ -19,6 +19,7 @@ import java.util.Vector;
  */
 public class Server
 {
+  public static final int SERVER_PORT = 8888;
   public static final int CHAT_PORT = 6789;
   
   private int port;
@@ -35,7 +36,7 @@ public class Server
       playerList = new ArrayList<>();
       serverSocket = new ServerSocket(port);
       chatServerSocket = new ServerSocket(CHAT_PORT);
-      chatThreads = new Vector<ChatThread>();
+      chatThreads = new Vector<>();
       System.out.printf("Connect clients to: %s\n", InetAddress.getLocalHost().getHostAddress());
       waitForPlayers();
       initializeGame();
@@ -46,13 +47,12 @@ public class Server
   }
 
   private void waitForPlayers() {
-
     outer:
     for(int i = 0; i < 4; ++i) {
       try {
+        ChatThread ct = new ChatThread(chatServerSocket.accept(), this);
+        chatThreads.add(ct);
 
-          ChatThread ct = new ChatThread(chatServerSocket.accept(), this);
-          chatThreads.add(ct);
         Socket socket = serverSocket.accept();
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
@@ -63,17 +63,19 @@ public class Server
             --i;
             out.writeObject(new SameNameError());
             out.flush();
-            in.close();
+
             out.close();
+            in.close();
+            socket.close();
             continue outer;
           }
         }
         for(Player p : playerList) {
           p.sendMessage(new PlayerJoined());
         }
-        playerList.add(new Player(playerInfo.getName(), socket, out, in));
-        out.writeObject(new AcceptedPlayer());
-        out.flush();
+        Player p = new Player(playerInfo.getName(), socket, out, in);
+        p.sendMessage(new AcceptedPlayer());
+        playerList.add(p);
       }
       catch(IOException | ClassNotFoundException e) {
         e.printStackTrace();
@@ -128,6 +130,6 @@ public class Server
   }
   
   public static void main(String[] args) {
-    Server s = new Server(8888);
+    Server s = new Server(SERVER_PORT);
   }
 }
