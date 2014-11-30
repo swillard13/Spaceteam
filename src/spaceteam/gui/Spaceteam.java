@@ -88,7 +88,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		//create labels/text in order to set the font
 		enterUsername = new JLabel("Enter a username:");
 		username = new JTextField(15);
-		commandText = new JLabel("Command will go here. LALALALLALALA");
+		commandText = new JLabel("");
 		messagesLabel = new JLabel("Messages");
 		userMessage = new JTextArea(3, 14);
 		sendMessageBtn = new JButton("Send");
@@ -192,12 +192,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		//set up controls
 		controlPanel = new JPanel();
 		controlPanel.setPreferredSize(new Dimension(540, 400));
-		controlPanel.setBackground(Color.GREEN);
 		controlPanel.setLayout(new GridLayout(2,3));
-		for(int i = 1; i <= 6; i++){
-			JButton temp = new JButton("" + i);
-			controlPanel.add(temp);
-		}
 		
 		//set up chat pane
 		chatPane = new JPanel();
@@ -321,7 +316,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 */
 	public void updateHealth(int health) {
 		((HealthBar) healthPanel).updateHealthBar(health);
-
 	}
 	
 	/**
@@ -345,7 +339,10 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 * Creates the new level.
 	 */
 	public void createLevel(List<Widget> widgetList) {
-		// TODO Auto-generated method stub
+		controlPanel.removeAll();
+		for (Widget w : widgetList) {
+			controlPanel.add(w.getComponent());
+		}
 	}
 	
 	/**
@@ -387,7 +384,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		chat = new ChatClient(hostname, Server.CHAT_PORT, username.getText(), 0, messages, chatMessages);
 		client = new ClientThread(this, hostname, 8888, username.getText());
 		client.start();
-
 	}
 
 }
