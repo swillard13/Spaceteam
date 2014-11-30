@@ -50,6 +50,7 @@ import spaceteam.client.ClientThread;
 import spaceteam.server.Server;
 import spaceteam.server.messages.game.GameOverMessage;
 import spaceteam.shared.Widget;
+import spaceteam.database.HighScore;
 
 public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 
@@ -65,7 +66,8 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	Vector<String> messages;
 	JList<String> chatMessages;
 	JScrollPane jsp;
-	JLabel enterUsername, commandText, messagesLabel, waitPlayers;
+	JLabel enterUsername, commandText, messagesLabel, waitPlayers, outcomeLabel, scoreLabel;
+    JTable highScoresTable;
 	JButton sendMessageBtn;
 	ClientThread client;
 	ChatClient chat;
@@ -164,7 +166,42 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		
 		
 		//Set up end screen panel
-		endCard = new JPanel(null);
+		endCard = new JPanel();
+        endCard.setBackground(Color.BLACK);
+        endCard.setLayout(new BorderLayout());
+        
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        outcomeLabel = new JLabel("You win!");
+        outcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        topPanel.add(Box.createRigidArea(new Dimension(10,10)));
+        topPanel.add(outcomeLabel);
+        topPanel.add(Box.createRigidArea(new Dimension(40,40)));
+        scoreLabel = new JLabel("Score: 23");
+        scoreLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        topPanel.add(scoreLabel);
+        endCard.add(topPanel, BorderLayout.NORTH);
+        
+        JLabel highScoresLabel = new JLabel("HIGH SCORES", JLabel.CENTER);
+        highScoresLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        highScoresLabel.setForeground(Color.CYAN);
+        endCard.add(highScoresLabel, BorderLayout.CENTER);
+        
+        highScoresTable = new JTable (new DefaultTableModel(new Object[] {"Score", "Player 1", "Player 2"},0) {
+            /**
+             *
+             */
+            private static final long serialVersionUID = 1L;
+            
+            @Override
+            public boolean isCellEditable(int row, int col){
+                return false;
+            }
+        });
+        highScoresTable.setBackground(Color.BLACK);
+        highScoresTable.setForeground(Color.CYAN);
+        JScrollPane jsp = new JScrollPane(highScoresTable);
+        endCard.add(jsp, BorderLayout.SOUTH);
 		
 		
 		//set up health bar
@@ -323,6 +360,23 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 */
 	public void endGame(GameOverMessage over) {
 		// TODO (nathan)
+        if (over.isWinner()) {
+            outcomeLabel.setText("YOU WIN!");
+        } else {
+            outcomeLabel.setText("You Lose");
+        }
+        
+        int score = over.getHighScore().getScore();
+        scoreLabel.setText("Score: " + score);
+        
+        List<HighScore> highScores = over.getHighScoreList();
+        DefaultTableModel dtm = (DefaultTableModel) highScoresTable.getModel();
+        
+        for (HighScore hs: highScores) {
+            Object[] rowData = {hs.getScore(), hs.getPlayer1(), hs.getPlayer2()};
+            dtm.addRow(rowData);
+        }
+        
 		CardLayout cl = (CardLayout)(cardsGeneral.getLayout());
 		cl.show(cardsGeneral, END);
 	}
