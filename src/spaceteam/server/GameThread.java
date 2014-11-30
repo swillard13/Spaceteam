@@ -249,13 +249,19 @@ public class GameThread extends Thread
      * Waits for messages from client and executes the message.
      */
     public void run() {
-      while(true) {
-        try {
-          executeMessage(player.getIn().readObject());
+      try {
+        while(true) {
+          try {
+            executeMessage(player.getIn().readObject());
+          }
+          catch(IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+          }
         }
-        catch(IOException | ClassNotFoundException e) {
-          e.printStackTrace();
-        }
+      }
+      catch(Exception e) {
+        gameThread.triggerGameOver(false);
+        otherGame.triggerGameOver(true);
       }
     }
 

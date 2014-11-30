@@ -32,8 +32,10 @@ public class Player
    */
   public synchronized void sendMessage(Message message) {
     try {
-      out.writeObject(message);
-      out.flush();
+      if(socket.isConnected()) {
+        out.writeObject(message);
+        out.flush();
+      }
     }
     catch(IOException e) {
       e.printStackTrace();
