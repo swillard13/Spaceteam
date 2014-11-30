@@ -72,8 +72,12 @@ public class GameThread extends Thread
     commandsRemaining = INITIAL_COMMANDS;
     dashPieces = generateDashPieces();
     int commandTime = getCommandTime();
-    player1.sendMessage(new LevelStart(dashPieces.subList(0, DASH_PIECES_PER_PLAYER), commandTime));
-    player2.sendMessage(new LevelStart(dashPieces.subList(DASH_PIECES_PER_PLAYER, 2 * DASH_PIECES_PER_PLAYER), commandTime));
+    ArrayList<Widget> player1Pieces = new ArrayList<>();
+    ArrayList<Widget> player2Pieces = new ArrayList<>();
+    player1Pieces.addAll(dashPieces.subList(0, DASH_PIECES_PER_PLAYER));
+    player2Pieces.addAll(dashPieces.subList(DASH_PIECES_PER_PLAYER, 2 * DASH_PIECES_PER_PLAYER));
+    player1.sendMessage(new LevelStart(player1Pieces, commandTime));
+    player2.sendMessage(new LevelStart(player2Pieces, commandTime));
     getNewCommand(player1Thread);
     getNewCommand(player2Thread);
   }
