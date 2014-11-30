@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.List;
 
 import spaceteam.gui.Spaceteam;
+import spaceteam.server.GameThread;
 import spaceteam.server.messages.game.Command;
 import spaceteam.server.messages.game.GameOverMessage;
 import spaceteam.server.messages.game.HealthMessage;
@@ -56,7 +57,12 @@ public class ClientThread extends Thread {
 	public void createLevel(LevelStart start) {
 		timeLimit = start.getSeconds();
 		widgetList = start.getWidgetList();
-		parent.createLevel(widgetList);
+		if(start.getIfFirst()) {
+			parent.createLevel(widgetList.subList(0, GameThread.DASH_PIECES_PER_PLAYER));
+		} else {
+			parent.createLevel(widgetList.subList(GameThread.DASH_PIECES_PER_PLAYER, 
+					2*GameThread.DASH_PIECES_PER_PLAYER));
+		}
 	}
 	
 	/**
