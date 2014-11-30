@@ -347,7 +347,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 * Creates the new level.
 	 */
 	public void createLevel(List<Widget> widgetList) {
-		// TODO (shelly) Auto-generated method stub
+		// TODO Auto-generated method stub
 	}
 	
 	/*
@@ -377,14 +377,13 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 * Begins the game.
 	 */
 	public void gameStarted() {
-		// TODO Auto-generated method stub
+		// TODO (shelly) Auto-generated method stub
 		
 	}
 	
 	/*
-	 * Creates client.
+	 * Creates client and chat.
 	 */
-
 	public void createClient() {
 		//TODO figure out port/hostname/ip/whatever to connect to server
 		chat = new ChatClient(hostname, Server.CHAT_PORT, username.getText(), 0, messages, chatMessages);
