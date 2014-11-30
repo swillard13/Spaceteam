@@ -326,13 +326,16 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 */
 	public void updateHealth(int health) {
 		((HealthBar) healthPanel).updateHealthBar(health);
+
 	}
 	
 	/**
 	 * Changes the screen to say game over and displays high scores.
 	 */
 	public void endGame(GameOverMessage over) {
-		// TODO Auto-generated method stub
+		// TODO (nathan)
+		CardLayout cl = (CardLayout)(cardsGeneral.getLayout());
+		cl.show(cardsGeneral, END);
 	}
 	
 	/**
