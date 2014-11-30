@@ -170,7 +170,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		
 		//set up health bar
 		//healthPanel = new JPanelWithBackground("src/spacestrip.jpeg");
-		healthPanel = new JPanelWithBackground("src/spaceteam/gui/spacestrip.jpeg");
+		healthPanel = new HealthBar();
 		healthPanel.setPreferredSize(new Dimension(540, 100));
 		
 		//set up commands
@@ -328,6 +328,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 */
 	public void updateHealth(int health) {
 		// TODO Auto-generated method stub
+		healthPanel.updateHealthBar(health);
 	}
 	
 	/*
