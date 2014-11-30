@@ -302,11 +302,15 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	
 	public static void main(String [] args){
 		Spaceteam st = new Spaceteam();
-		System.out.print("Host Name: ");
-		Scanner scan = new Scanner(System.in);
-		st.setHostname(scan.next());
+		if (args.length == 1) {
+			st.setHostname(args[0]);
+		} else {
+			System.out.print("Host Name: ");
+			Scanner scan = new Scanner(System.in);
+			st.setHostname(scan.next());
+			scan.close();
+		}
 		st.setVisible(true);
-		scan.close();
 	}
 	
 	public void setHostname(String hostname)

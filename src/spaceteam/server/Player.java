@@ -16,12 +16,14 @@ public class Player
   private Socket socket;
   private ObjectOutputStream out;
   private ObjectInputStream in;
+  private int playerNum;
 
-  public Player(String name, Socket socket, ObjectOutputStream out, ObjectInputStream in) {
+  public Player(String name, Socket socket, ObjectOutputStream out, ObjectInputStream in, int playerNum) {
     this.name = name;
     this.socket = socket;
     this.out = out;
     this.in = in;
+    this.playerNum = playerNum % 2;
   }
 
   /**
@@ -30,8 +32,10 @@ public class Player
    */
   public synchronized void sendMessage(Message message) {
     try {
-      out.writeObject(message);
-      out.flush();
+      if(socket.isConnected()) {
+        out.writeObject(message);
+        out.flush();
+      }
     }
     catch(IOException e) {
       e.printStackTrace();
@@ -52,6 +56,10 @@ public class Player
 
   public ObjectInputStream getIn() {
     return in;
+  }
+
+  public int getPlayerNum() {
+    return playerNum;
   }
 
   /**

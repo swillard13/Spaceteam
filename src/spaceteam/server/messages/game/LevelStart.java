@@ -16,7 +16,7 @@ public class LevelStart implements Message
   private int secondsPerCommand;
   private boolean first;
 
-  public LevelStart(List<Widget> widgetList, int secondsPerCommand, boolean first) {
+  public <T extends List<Widget> & Serializable> LevelStart(T widgetList, int secondsPerCommand, boolean first) {
     this.widgetList = widgetList;
     this.secondsPerCommand = secondsPerCommand;
     this.first = first;
