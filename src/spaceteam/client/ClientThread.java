@@ -15,7 +15,6 @@ import spaceteam.server.messages.game.TimeRunOut;
 import spaceteam.server.messages.initialization.AcceptedPlayer;
 import spaceteam.server.messages.initialization.GameStarted;
 import spaceteam.server.messages.initialization.PlayerInfo;
-import spaceteam.server.messages.initialization.PlayerJoined;
 import spaceteam.server.messages.initialization.SameNameError;
 import spaceteam.shared.Widget;
 
@@ -169,8 +168,6 @@ public class ClientThread extends Thread {
 					acceptedPlayer();
 				} else if (obj instanceof GameStarted) {
 					gameStarted();
-				} else if (obj instanceof PlayerJoined) {
-					playerJoined();
 				} else if (obj instanceof SameNameError) {
 					sameNameError();
 				}

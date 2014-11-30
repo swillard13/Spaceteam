@@ -37,16 +37,7 @@ public class GetRandomControl extends SQLCommand
         controlInfoList.add(new Control(control, verb));
       }
     }
-    catch(InstantiationException e) {
-      e.printStackTrace();
-    }
-    catch(IllegalAccessException e) {
-      e.printStackTrace();
-    }
-    catch(ClassNotFoundException e) {
-      e.printStackTrace();
-    }
-    catch(SQLException e) {
+    catch(InstantiationException | SQLException | ClassNotFoundException | IllegalAccessException e) {
       e.printStackTrace();
     }
     return false;

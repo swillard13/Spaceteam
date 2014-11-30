@@ -78,9 +78,6 @@ public class Server
             continue outer;
           }
         }
-        for(Player p : playerList) {
-          p.sendMessage(new PlayerJoined());
-        }
         Player p = new Player(playerInfo.getName(), socket, out, in);
         p.sendMessage(new AcceptedPlayer());
         playerList.add(p);
@@ -148,7 +145,7 @@ public class Server
 		  }
 	  }
   }
-  
+
   public static void main(String[] args) {
     Server s = new Server(SERVER_PORT);
   }

@@ -280,6 +280,7 @@ public class GameThread extends Thread
       else if(obj instanceof Command) {
         Command command = (Command) obj;
         if(command.equals(currCommand)) {
+          score++;
           if(!gameThread.decrementCommands()) {
             gameThread.getNewCommand(this);
           }
