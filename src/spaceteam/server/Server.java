@@ -71,10 +71,11 @@ public class Server
             --i;
             out.writeObject(new SameNameError());
             out.flush();
-
+            
             out.close();
             in.close();
             socket.close();
+            chatThreads.remove(ct);
             continue outer;
           }
         }

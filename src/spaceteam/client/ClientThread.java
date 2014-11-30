@@ -103,13 +103,6 @@ public class ClientThread extends Thread {
 	}
 	
 	/*
-	 * Tells the GUI that the player has joined successfully.
-	 */
-	public void playerJoined() {
-		parent.playerJoined();
-	}
-	
-	/*
 	 * Tells the GUI that the player needs to choose a new username.
 	 */
 	public void sameNameError() {
@@ -170,10 +163,12 @@ public class ClientThread extends Thread {
 					gameStarted();
 				} else if (obj instanceof SameNameError) {
 					sameNameError();
+					break;
 				}
 				
 			} catch (ClassNotFoundException | IOException e) {
-				System.out.println("Error reading object from server.");
+				System.out.println("Error reading object from server. Exiting now.");
+				break;
 			}
 		}
 	}

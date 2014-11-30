@@ -282,8 +282,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == continueButton){
-			CardLayout cl = (CardLayout)(cardsGeneral.getLayout());
-			cl.show(cardsGeneral, GAMEPLAY);
 			//Send user information to the client!!!
 			createClient();
 		}
@@ -327,8 +325,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 * Updates the Health bar to the current health.
 	 */
 	public void updateHealth(int health) {
-		// TODO Auto-generated method stub
-		healthPanel.updateHealthBar(health);
+		((HealthBar) healthPanel).updateHealthBar(health);
 	}
 	
 	/*
@@ -354,19 +351,11 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	}
 	
 	/*
-	 * Changes the number of players joined.
-	 */
-	public void playerJoined() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	/*
 	 * Tells the user to choose a different name.
 	 */
 	public void sameNameError() {
-		// TODO Auto-generated method stub
-		
+		username.setForeground(Color.RED);
+		username.setText("Error: That username is already taken!");
 	}
 	
 	/*
@@ -380,8 +369,8 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 * Changes the card to the waiting room.
 	 */
 	public void acceptedPlayer() {
-		// TODO Auto-generated method stub
-		
+		CardLayout cl = (CardLayout)(cardsGeneral.getLayout());
+		cl.show(cardsGeneral, GAMEPLAY);	
 	}
 	
 	/*
@@ -400,6 +389,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		//TODO figure out port/hostname/ip/whatever to connect to server
 		chat = new ChatClient(hostname, Server.CHAT_PORT, username.getText(), 0, messages, chatMessages);
 		client = new ClientThread(this, hostname, 8888, username.getText());
+		client.start();
 
 	}
 
