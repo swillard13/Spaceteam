@@ -1,12 +1,15 @@
 package spaceteam.shared;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
 
 public class ButtonGroupWidget extends AbstractWidget {
 	
@@ -37,7 +40,8 @@ public class ButtonGroupWidget extends AbstractWidget {
 	
 	@Override
 	public JPanel getComponent() {
-		JPanel panel = new JPanel(new FlowLayout());
+		JPanel panel = new JPanel(new BorderLayout());
+		JPanel buttonPanel = new JPanel(new FlowLayout());
 		ButtonGroup group = new ButtonGroup();
 		for (int i = getMin(); i <= getMax(); ++i) {
 			final JToggleButton button = new JToggleButton(String.valueOf(i));
@@ -48,8 +52,10 @@ public class ButtonGroupWidget extends AbstractWidget {
 				}		
 			});
 			group.add(button);
-			panel.add(button);
-		}
+			buttonPanel.add(button);
+		};
+		panel.add(new JLabel(getName(), SwingConstants.CENTER), BorderLayout.NORTH);
+		panel.add(buttonPanel, BorderLayout.CENTER);
 		return panel;
 	}
 
