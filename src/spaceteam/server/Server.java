@@ -79,7 +79,7 @@ public class Server
             continue outer;
           }
         }
-        Player p = new Player(playerInfo.getName(), socket, out, in);
+        Player p = new Player(playerInfo.getName(), socket, out, in, i);
         p.sendMessage(new AcceptedPlayer());
         playerList.add(p);
       }

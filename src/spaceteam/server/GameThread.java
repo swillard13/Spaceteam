@@ -113,8 +113,9 @@ public class GameThread extends Thread
    * Waits until both games have finished the level before generating a new one.
    */
   public void run() {
-    player1Thread = new PlayerThread(player1, player2, this);
-    player2Thread = new PlayerThread(player2, player1, this);
+    player1Thread = new PlayerThread(player1, null, this);
+    player2Thread = new PlayerThread(player2, player1Thread, this);
+    player1Thread.teammate = player2Thread;
 
     player1Thread.start();
     player2Thread.start();
@@ -150,7 +151,14 @@ public class GameThread extends Thread
    * @see spaceteam.server.messages.game.Command
    */
   public void getNewCommand(PlayerThread playerThread) {
-    int widgetId = RANDOM.nextInt(dashPieces.size());
+    int playerNum = playerThread.getPlayer().getPlayerNum();
+    int widgetId;
+    if(RANDOM.nextInt(4) == 0) {
+      widgetId = RANDOM.nextInt(dashPieces.size());
+    }
+    else {
+      widgetId = RANDOM.nextInt((dashPieces.size() / 2) * (1 + playerNum));
+    }
     Widget widget = dashPieces.get(widgetId);
     int newValue = widget.getRandomValue();
     Command command = new Command(widgetId, newValue);
@@ -226,11 +234,11 @@ public class GameThread extends Thread
   public class PlayerThread extends Thread
   {
     private Player player;
-    private Player teammate;
+    private PlayerThread teammate;
     private GameThread gameThread;
     private Command currCommand;
 
-    public PlayerThread(Player player, Player teammate, GameThread gameThread) {
+    public PlayerThread(Player player, PlayerThread teammate, GameThread gameThread) {
       this.player = player;
       this.teammate = teammate;
       this.gameThread = gameThread;
@@ -264,13 +272,13 @@ public class GameThread extends Thread
      * Executes a message recieved from the client.
      * The two possible objects from the client are handled here:
      * <ol>
-     *  <li>
-     *    TimeRunOut: Decrement the health and get a new command.
-     *  </li>
-     *  <li>
-     *    Command: Check if the command is equal to the goal command.
-     *             Get a new command and decrement number of commands remaining if it is.
-     *  </li>
+     * <li>
+     * TimeRunOut: Decrement the health and get a new command.
+     * </li>
+     * <li>
+     * Command: Check if the command is equal to the goal command.
+     * Get a new command and decrement number of commands remaining if it is.
+     * </li>
      * </ol>
      *
      * @param obj the message received from the client.
@@ -289,7 +297,21 @@ public class GameThread extends Thread
             gameThread.getNewCommand(this);
           }
         }
+        else if(command.equals(teammate.getCurrCommand())) {
+          score++;
+          if(!gameThread.decrementCommands()) {
+            gameThread.getNewCommand(teammate);
+          }
+        }
       }
+    }
+
+    public Player getPlayer() {
+      return player;
+    }
+
+    public Command getCurrCommand() {
+      return currCommand;
     }
   }
 }
