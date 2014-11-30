@@ -28,7 +28,7 @@ public class ClientThread extends Thread {
 	private List<Widget> widgetList;
 	private Spaceteam parent;
 
-	/*
+	/**
 	 * Constructor for ClientThread
 	 * @constructor
 	 */
@@ -49,7 +49,7 @@ public class ClientThread extends Thread {
 		}
 	}
 	
-	/*
+	/**
 	 * Passes the new widgets to the GUI method to change the level.
 	 * Stores the new time limit for a command and the list of widgets.
 	 */
@@ -59,7 +59,7 @@ public class ClientThread extends Thread {
 		parent.createLevel(widgetList);
 	}
 	
-	/*
+	/**
 	 *  Calls the GUI method to display a level complete message to 
 	 *  the player and wait for the next level to begin.
 	 */
@@ -67,21 +67,21 @@ public class ClientThread extends Thread {
 		parent.completeLevel();
 	}
 	
-	/*
+	/**
 	 * Calls the GUI method to update the health display to the user.
 	 */
 	public void updateHealth(HealthMessage health) {
 		parent.updateHealth(health.getCurrHealth());
 	}
 	
-	/*
+	/**
 	 * Calls the GUI method to end the game and display high scores.
 	 */
 	public void endGame(GameOverMessage over) {
 		parent.endGame(over);
 	}
 	
-	/*
+	/**
 	 * Calls the GUI method to display the command to the user and 
 	 * creates a Timer thread.
 	 */
@@ -95,28 +95,28 @@ public class ClientThread extends Thread {
 		tt = new Timer(this, timeLimit);
 	}
 	
-	/*
+	/**
 	 * Tells the GUI that the player has joined successfully.
 	 */
 	public void acceptedPlayer() {
 		parent.acceptedPlayer();
 	}
 	
-	/*
+	/**
 	 * Tells the GUI that the player needs to choose a new username.
 	 */
 	public void sameNameError() {
 		parent.sameNameError();
 	}
 	
-	/*
+	/**
 	 * Tells the GUI that the game has started.
 	 */
 	private void gameStarted() {
 		parent.gameStarted();
 	}
 	
-	/*
+	/**
 	 * Sends a message to the server that the time limit was 
 	 * exceeded on the command.
 	 */
@@ -131,7 +131,7 @@ public class ClientThread extends Thread {
 		}
 	}
 	
-	/*
+	/**
 	 * Creates a command object and sends the command to the server for evaluation.
 	 */
 	public void piecePressed(int widgetId, int value) {
@@ -143,6 +143,7 @@ public class ClientThread extends Thread {
 			e.printStackTrace();
 		}
 	}
+
 
 	public void run() {
 		while (true) {

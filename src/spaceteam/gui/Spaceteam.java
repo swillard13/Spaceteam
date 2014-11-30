@@ -321,21 +321,21 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		
 	}
 	
-	/*
+	/**
 	 * Updates the Health bar to the current health.
 	 */
 	public void updateHealth(int health) {
 		((HealthBar) healthPanel).updateHealthBar(health);
 	}
 	
-	/*
+	/**
 	 * Changes the screen to say game over and displays high scores.
 	 */
 	public void endGame(GameOverMessage over) {
 		// TODO Auto-generated method stub
 	}
 	
-	/*
+	/**
 	 * Tells the player that the level was completed and waits for the 
 	 * signal to start a new level.
 	 */
@@ -343,14 +343,14 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		// TODO Auto-generated method stub
 	}
 	
-	/*
+	/**
 	 * Creates the new level.
 	 */
 	public void createLevel(List<Widget> widgetList) {
 		// TODO Auto-generated method stub
 	}
 	
-	/*
+	/**
 	 * Tells the user to choose a different name.
 	 */
 	public void sameNameError() {
@@ -358,14 +358,14 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		username.setText("Error: That username is already taken!");
 	}
 	
-	/*
+	/**
 	 * Changes the current command displayed.
 	 */
 	public void displayCommand(String s) {
 		commandText.setText(s);
 	}
 	
-	/*
+	/**
 	 * Changes the card to the waiting room.
 	 */
 	public void acceptedPlayer() {
@@ -373,15 +373,15 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		cl.show(cardsGeneral, GAMEPLAY);	
 	}
 	
-	/*
+	/**
 	 * Begins the game.
 	 */
 	public void gameStarted() {
-		// TODO (shelly) Auto-generated method stub
-		
+		CardLayout cl = (CardLayout)(mainPane.getLayout());
+		cl.show(mainPane, GAME);
 	}
 	
-	/*
+	/**
 	 * Creates client and chat.
 	 */
 	public void createClient() {
