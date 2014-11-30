@@ -139,7 +139,7 @@ public class Server
 	  {
 		  for (int i = 0; i < usernames.length; i++)
 		  {
-			  if (c.getUsername().equals(rec))
+			  if (c.getUsername() != null && c.getUsername().equals(rec))
 			  {
 				  c.send(words);
 			  }
