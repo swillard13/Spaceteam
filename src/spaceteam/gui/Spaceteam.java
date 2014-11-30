@@ -58,14 +58,14 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	JPanelWithBackground startCard;
 	ArrayList<String> controls;
 	JTextArea userMessage;
-	JButton continueButton, waitPlayers;
+	JButton continueButton;
 	Dimension contDimensions, wpDimensions;
 	JTextField username;
 	ArrayList<JLabel> icons;
 	Vector<String> messages;
 	JList<String> chatMessages;
 	JScrollPane jsp;
-	JLabel enterUsername, commandText, messagesLabel;
+	JLabel enterUsername, commandText, messagesLabel, waitPlayers;
 	JButton sendMessageBtn;
 	ClientThread client;
 	ChatClient chat;
@@ -152,8 +152,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		mainPane.setSize(550, 600);
 		
 		waitForPlayersPane = new JPanel(null);
-		waitPlayers = new JButton("Waiting for Other Players");
-		waitPlayers.addActionListener(this);
+		waitPlayers = new JLabel("Waiting for Other Players");
 		wpDimensions = waitPlayers.getPreferredSize();
 		waitPlayers.setBounds(150, 25, wpDimensions.width, wpDimensions.height);
 		waitForPlayersPane.add(waitPlayers);
@@ -284,10 +283,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		if(e.getSource() == continueButton){
 			//Send user information to the client!!!
 			createClient();
-		}
-		else if(e.getSource() == waitPlayers){
-			CardLayout cl = (CardLayout)(mainPane.getLayout());
-			cl.show(mainPane, GAME);
 		}
 	}
 
