@@ -30,6 +30,10 @@ public class Server
   private GameThread game2;
   private Vector<ChatThread> chatThreads;
 
+  /**
+   * Instantiates Server object, which waits for players to join and initializes the game threads.
+   * @param port the port number to start the server on
+   */
   public Server(int port) {
     try {
       this.port = port;
@@ -46,6 +50,10 @@ public class Server
     }
   }
 
+  /**
+   * Waits for four players to join the game. Players with the same name are rejected.
+   * Also instantiates the chat threads for the chat server.
+   */
   private void waitForPlayers() {
     outer:
     for(int i = 0; i < 4; ++i) {
@@ -82,6 +90,12 @@ public class Server
       }
     }
   }
+
+  /**
+   * Initializes the game threads and sends messages for the chat threads.
+   * Pairs Player 0 with Player 1, and Player 2 with Player 3.
+   * This is taken from the order they join the game.
+   */
   private void initializeGame() {
     for(Player p : playerList) {
       p.sendMessage(new GameStarted());
@@ -108,7 +122,13 @@ public class Server
     game1.start();
     game2.start();
   }
-  
+
+  /**
+   * Finds and sends a message to another chat thread based on the parsed field RECIPIENTS.
+   * Matches the client thread based on the associated username, and sends the message.
+   * @param message the message to be sent to another client
+   * @param sender the chat thread sending the message
+   */
   public void sendMessage(String message, ChatThread sender)
   {
 	  int messageIndex = 9;

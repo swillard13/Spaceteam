@@ -5,7 +5,6 @@ import spaceteam.server.messages.Message;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.Socket;
 
 /**
@@ -25,6 +24,10 @@ public class Player
     this.in = in;
   }
 
+  /**
+   * Sends an object that implements Message.
+   * @param message the Message object to be sent
+   */
   public synchronized void sendMessage(Message message) {
     try {
       out.writeObject(message);
@@ -51,6 +54,10 @@ public class Player
     return in;
   }
 
+  /**
+   * The method closes the input and output streams and the connection socket.
+   * Used after the game has finished to close open connections.
+   */
   public void terminate() {
     try {
       out.close();
