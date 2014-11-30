@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,11 +40,13 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import spaceteam.chat.ChatClient;
 import spaceteam.client.ClientThread;
@@ -397,6 +400,8 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		for (Widget w : widgetList) {
 			controlPanel.add(w.getComponent());
 		}
+		
+		//TODO add appropriate action listeners to send client info on move
 	}
 	
 	/**
