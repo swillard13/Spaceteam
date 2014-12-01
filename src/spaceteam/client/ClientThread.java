@@ -11,6 +11,7 @@ import spaceteam.server.GameThread;
 import spaceteam.server.messages.game.Command;
 import spaceteam.server.messages.game.GameOverMessage;
 import spaceteam.server.messages.game.HealthMessage;
+import spaceteam.server.messages.game.LevelFinish;
 import spaceteam.server.messages.game.LevelStart;
 import spaceteam.server.messages.game.TimeRunOut;
 import spaceteam.server.messages.initialization.AcceptedPlayer;
@@ -182,7 +183,9 @@ public class ClientThread extends Thread {
 				} else if (obj instanceof SameNameError) {
 					sameNameError();
 					break;
-				}			
+				} else if (obj instanceof LevelFinish) {
+					completeLevel();
+				}
 			}
 			if (!socket.isClosed()) {
 				socket.close();
