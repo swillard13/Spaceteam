@@ -1,9 +1,9 @@
 package spaceteam.server.messages.game;
 
+import java.util.List;
+
 import spaceteam.database.HighScore;
 import spaceteam.server.messages.Message;
-
-import java.util.List;
 
 /**
  * Created by Ananth on 11/24/2014.

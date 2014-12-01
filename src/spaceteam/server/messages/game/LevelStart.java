@@ -1,11 +1,10 @@
 package spaceteam.server.messages.game;
 
-import spaceteam.server.messages.Message;
-import spaceteam.shared.AbstractWidget;
-import spaceteam.shared.Widget;
-
 import java.io.Serializable;
 import java.util.List;
+
+import spaceteam.server.messages.Message;
+import spaceteam.shared.Widget;
 
 /**
  * Created by Ananth on 11/28/2014.
