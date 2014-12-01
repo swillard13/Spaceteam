@@ -75,7 +75,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	JButton continueButton;
 	Dimension contDimensions, wpDimensions;
 	JTextField username;
-	ArrayList<JLabel> icons;
+	ArrayList<JButton> icons;
 	Vector<String> messages;
 	JList<String> chatMessages;
 	JScrollPane jsp;
@@ -85,6 +85,8 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	ClientThread client;
 	ChatClient chat;
 	String hostname;
+	int avatar;
+	JLabel avatarLabel;
 	
 	static final String START = "Start Screen";
 	static final String GAMEPLAY = "Gameplay";
@@ -96,9 +98,9 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		//setup main window
 		super("Spaceteam");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(800, 600);
-		setMinimumSize(new Dimension(800, 600));
-		setMaximumSize(new Dimension(800, 600));
+		setSize(800, 620);
+		setMinimumSize(new Dimension(800, 620));
+		setMaximumSize(new Dimension(800, 620));
 		setLocationRelativeTo(null);
 		
 		//create labels/text in order to set the font
@@ -128,31 +130,25 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		}
 		
 		//load icons
-		icons = new ArrayList<JLabel>();
-		ImageIcon imgicon = new ImageIcon("src/spaceteam/gui/avatar1.png");
-		Image img = imgicon.getImage();
-		img = img.getScaledInstance(65, 65, 0);
-		icons.add(new JLabel(new ImageIcon(img)));
-		imgicon = new ImageIcon("src/spaceteam/gui/avatar2.png");
-		img = imgicon.getImage();
-		img = img.getScaledInstance(65, 65, 0);
-		icons.add(new JLabel(new ImageIcon(img)));
-		imgicon = new ImageIcon("src/spaceteam/gui/avatar3.png");
-		img = imgicon.getImage();
-		img = img.getScaledInstance(65, 65, 0);
-		icons.add(new JLabel(new ImageIcon(img)));
-		imgicon = new ImageIcon("src/spaceteam/gui/avatar4.png");
-		img = imgicon.getImage();
-		img = img.getScaledInstance(65, 65, 0);
-		icons.add(new JLabel(new ImageIcon(img)));
-		imgicon = new ImageIcon("src/spaceteam/gui/avatar5.png");
-		img = imgicon.getImage();
-		img = img.getScaledInstance(65, 65, 0);
-		icons.add(new JLabel(new ImageIcon(img)));
-		imgicon = new ImageIcon("src/spaceteam/gui/avatar6.png");
-		img = imgicon.getImage();
-		img = img.getScaledInstance(65, 65, 0);
-		icons.add(new JLabel(new ImageIcon(img)));
+		icons = new ArrayList<JButton>();
+		for (int i = 1; i <= 6; i++)
+		{
+			ImageIcon imgicon = new ImageIcon("src/spaceteam/gui/avatar" + Integer.toString(i) + ".png");
+			Image img = imgicon.getImage();
+			img = img.getScaledInstance(65, 65, 0);
+			JButton button = new JButton(new ImageIcon(img));
+			button.setPreferredSize(new Dimension(65, 65));
+			int temp = i;
+			button.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent ae)
+				{
+					avatar = temp;
+					button.getModel().setPressed(true);
+					continueButton.setEnabled(true);
+				}
+			});
+			icons.add(button);
+		}
 		
 		cardsGeneral = new JPanel(new CardLayout());
 		
@@ -180,6 +176,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		contDimensions = continueButton.getPreferredSize();
 		continueButton.setBounds(360, 540, contDimensions.width, contDimensions.height);
 		startCard.add(continueButton);
+		continueButton.setEnabled(false);
 		
 		//Set general panel layout for main pane
 		gameCard = new JPanel();
@@ -272,12 +269,20 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		chatPane.setMinimumSize(new Dimension(260,600));
 		chatPane.setMaximumSize(new Dimension(260,600));
 		chatPane.setBackground(new Color(10,47,105));
+		
+		JPanel topChatPanel = new JPanel();
+		topChatPanel.add(messagesLabel, BorderLayout.CENTER);
+		avatarLabel = new JLabel();
+		avatarLabel.setPreferredSize(new Dimension(65, 65));
+		topChatPanel.setBackground(new Color(10, 47, 105));
+		topChatPanel.add(avatarLabel, BorderLayout.SOUTH);
+		topChatPanel.setPreferredSize(new Dimension(260, 65));
 		messagesLabel.setForeground(Color.white);
-		chatPane.add(messagesLabel, BorderLayout.NORTH);
+		chatPane.add(topChatPanel, BorderLayout.NORTH);
 		messages = new Vector<String>();
 		chatMessages = new JList<String>();
 		jsp = new JScrollPane(chatMessages);
-		jsp.setPreferredSize(new Dimension(240, 470));
+		jsp.setPreferredSize(new Dimension(240, 430));
 		chatPane.add(jsp, BorderLayout.CENTER);
 		//Change up the lookandfeel. temporarily looks hideous
 		JPanel sendMessagePanel = new JPanel();
@@ -371,7 +376,17 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == continueButton){
 			//Send user information to the client!!!
+			if (username.getText().trim().length() == 0)
+			{
+				blankNameError();
+				return;
+			}
 			createClient();
+			ImageIcon imgicon = new ImageIcon("src/spaceteam/gui/avatar" + Integer.toString(avatar) + ".png");
+			Image img = imgicon.getImage();
+			img = img.getScaledInstance(65, 65, 0);
+			imgicon.setImage(img);
+			avatarLabel.setIcon(imgicon);
 		}
 	}
 
@@ -489,6 +504,14 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	public void sameNameError() {
 		username.setForeground(Color.RED);
 		username.setText("Error: That username is already taken!");
+	}
+	
+	/**
+	 * Tells the user the name is blank
+	 */
+	public void blankNameError() {
+		username.setForeground(Color.RED);
+		username.setText("Error: The username cannot be blank!");
 	}
 	
 	/**
