@@ -17,7 +17,15 @@ public class Timer extends Thread {
 	
 	public void run() {
 		try {
-			Thread.sleep(limit*1000);
+			for(int i = 0; i < limit; i++) {
+				Thread.sleep(1000);
+				if (on) {
+					parent.updateTime(limit-i, limit);
+				} else {
+					break;
+				}
+			}
+			
 			if (on) {
 				parent.timeEnd();
 			}

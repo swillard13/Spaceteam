@@ -100,7 +100,7 @@ public class ClientThread extends Thread {
 		String s;
 		if(widgetList.get(c.getWidgetId()) instanceof PushButtonWidget || 
 				widgetList.get(c.getWidgetId()) instanceof ToggleButtonWidget) {
-			s = "Press " + widgetList.get(c.getWidgetId()).getName();
+			s = widgetList.get(c.getWidgetId()).getVerb() + " " + widgetList.get(c.getWidgetId()).getName();
 		}
 		else {
 			s = widgetList.get(c.getWidgetId()).getVerb() + " " + 
@@ -188,6 +188,10 @@ public class ClientThread extends Thread {
 				break;
 			}
 		}
+	}
+
+	public void updateTime(int current, int total) {
+		parent.updateTime(current, total);	
 	}
 
 }

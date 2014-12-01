@@ -412,7 +412,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		controlPanel.removeAll();
 		for (int i = 0; i < widgetList.size(); i++) {
 			Widget w = widgetList.get(i);
-			int id;
+			final int id;
 			if(first) {
 				id = i;
 			} else {
@@ -472,6 +472,11 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		chat = new ChatClient(hostname, Server.CHAT_PORT, username.getText(), 0, messages, chatMessages);
 		client = new ClientThread(this, hostname, 8888, username.getText());
 		client.start();
+	}
+
+	public void updateTime(int current, int total) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
