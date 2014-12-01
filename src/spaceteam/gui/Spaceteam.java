@@ -308,6 +308,9 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		
 		CardLayout cl = (CardLayout)(cardsGeneral.getLayout());
 		cl.show(cardsGeneral, START);
+		
+		mainPane.getRootPane().setDefaultButton(sendMessageBtn);
+		startCard.getRootPane().setDefaultButton(continueButton);
 	}
 	
 	public static void main(String [] args){
