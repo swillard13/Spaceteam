@@ -200,7 +200,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		JLabel waitTeamPic = new JLabel(new ImageIcon("src/spaceteam/gui/waitingforteam.gif"));
 		wpDimensions = waitTeamPic.getPreferredSize();
 		waitTeamPic.setBounds(0, 0, wpDimensions.width, wpDimensions.height);
-		waitForPlayersPane.add(waitTeamPic);
+		waitForTeamPane.add(waitTeamPic);
 		
 		//Set up end screen panel
 		endCard = new JPanel();
