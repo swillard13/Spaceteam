@@ -162,10 +162,10 @@ public class ClientThread extends Thread {
 
 
 	public void run() {
-		while (true) {
-			try {
+		try {
+			while (true) {
 				Object obj = ois.readObject();
-				
+				System.out.println(obj);
 				if (obj instanceof Command) {
 					setCommand((Command) obj);
 				} else if (obj instanceof LevelStart) {
@@ -174,6 +174,7 @@ public class ClientThread extends Thread {
 					updateHealth((HealthMessage) obj);
 				} else if (obj instanceof GameOverMessage) {
 					endGame((GameOverMessage) obj);
+					break;
 				} else if (obj instanceof AcceptedPlayer) {
 					acceptedPlayer();
 				} else if (obj instanceof GameStarted) {
@@ -181,12 +182,13 @@ public class ClientThread extends Thread {
 				} else if (obj instanceof SameNameError) {
 					sameNameError();
 					break;
-				}
-				
-			} catch (ClassNotFoundException | IOException e) {
-				System.out.println("Error reading object from server. Exiting now.");
-				break;
+				}			
 			}
+			if (!socket.isClosed()) {
+				socket.close();
+			}
+		} catch (ClassNotFoundException | IOException e) {
+			System.out.println("Error reading object from server. Exiting now.");
 		}
 	}
 

@@ -44,6 +44,7 @@ public class GameThread extends Thread
   private int commandsRemaining;
 
   private Lock lock = new ReentrantLock();
+  private Lock commandsLock = new ReentrantLock();
   private Condition condition = lock.newCondition();
   private List<Widget> dashPieces;
 
@@ -104,7 +105,12 @@ public class GameThread extends Thread
    * @return <code>true</code> if the level is finished, <code>false</code> otherwise
    */
   public boolean isLevelFinished() {
-    return commandsRemaining == 0;
+	try {
+		commandsLock.lock();
+		return commandsRemaining == 0;
+	} finally {
+		commandsLock.unlock();
+	}
   }
 
   /**
@@ -124,7 +130,8 @@ public class GameThread extends Thread
       generateLevel();
       try {
         lock.lock();
-        condition.await();
+        while (!isLevelFinished());
+        condition.notifyAll();
         lock.unlock();
         if(!otherGame.isLevelFinished()) {
           otherGame.getCondition().await();
@@ -172,12 +179,13 @@ public class GameThread extends Thread
    * @return <code>true</code> if the level has ended, <code>false</code> otherwise
    */
   public synchronized boolean decrementCommands() {
-    commandsRemaining--;
-    if(commandsRemaining == 0) {
-      condition.notifyAll();
-      return true;
-    }
-    return false;
+	try {
+		commandsLock.lock();
+		commandsRemaining--;
+		return commandsRemaining == 0;
+	} finally {
+		commandsLock.unlock();
+	}
   }
 
   /**
