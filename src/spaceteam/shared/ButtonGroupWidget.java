@@ -54,7 +54,7 @@ public class ButtonGroupWidget extends AbstractWidget {
 			group.add(button);
 			buttonPanel.add(button);
 		};
-		panel.add(new JLabel(getName(), SwingConstants.CENTER), BorderLayout.NORTH);
+		panel.add(new JLabel(super.getName(), SwingConstants.CENTER), BorderLayout.NORTH);
 		panel.add(buttonPanel, BorderLayout.CENTER);
 		return panel;
 	}
