@@ -17,6 +17,8 @@ import spaceteam.server.messages.initialization.AcceptedPlayer;
 import spaceteam.server.messages.initialization.GameStarted;
 import spaceteam.server.messages.initialization.PlayerInfo;
 import spaceteam.server.messages.initialization.SameNameError;
+import spaceteam.shared.PushButtonWidget;
+import spaceteam.shared.ToggleButtonWidget;
 import spaceteam.shared.Widget;
 
 public class ClientThread extends Thread {
@@ -95,8 +97,15 @@ public class ClientThread extends Thread {
 		if(tt != null) {
 			tt.turnOff();	
 		}
-		String s = widgetList.get(c.getWidgetId()).getVerb() + " " + 
-				widgetList.get(c.getWidgetId()).getName() + " to " + c.getValue();
+		String s;
+		if(widgetList.get(c.getWidgetId()) instanceof PushButtonWidget || 
+				widgetList.get(c.getWidgetId()) instanceof ToggleButtonWidget) {
+			s = "Press " + widgetList.get(c.getWidgetId()).getName();
+		}
+		else {
+			s = widgetList.get(c.getWidgetId()).getVerb() + " " + 
+					widgetList.get(c.getWidgetId()).getName() + " to " + c.getValue();
+		}
 		parent.displayCommand(s);
 		tt = new Timer(this, timeLimit);
 		tt.start();
