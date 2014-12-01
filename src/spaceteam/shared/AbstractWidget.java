@@ -74,7 +74,6 @@ public abstract class AbstractWidget implements Widget {
 	}
 
 	private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
-		System.out.println("Deserializing");
 		in.defaultReadObject();
 		listeners = new LinkedList<InteractionListener>();
 	}
