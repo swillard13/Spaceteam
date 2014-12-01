@@ -27,7 +27,7 @@ public class ButtonGroupWidget extends AbstractWidget {
 	}
 	
 	protected int getSecondValue() {
-		return (getRandomBits() & SECOND_VALUE_MASK) >> 3;
+		return ((getRandomBits() & SECOND_VALUE_MASK) >> 3) + 1;
 	}
 	
 	public int getMin() {
@@ -61,7 +61,7 @@ public class ButtonGroupWidget extends AbstractWidget {
 
 	@Override
 	public int getRandomValue() {
-		return RANDOM.nextInt(getMax()) + getMin();
+		return RANDOM.nextInt(getMax() - getMin()) + getMin();
 	}
 
 }
