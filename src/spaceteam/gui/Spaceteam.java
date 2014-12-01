@@ -173,10 +173,10 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		
 		//Set up "waiting for other team" card when Level is completed by one team.
 		waitForTeamPane = new JPanel(null);
-		JLabel waitTeamWords = new JLabel("Waiting for other team...");
-		wpDimensions = waitTeamWords.getPreferredSize();
-		waitTeamWords.setBounds(200, 100, wpDimensions.width, wpDimensions.height);
-		waitForTeamPane.add(waitTeamWords);
+		JLabel waitTeamPic = new JLabel(new ImageIcon("src/spaceteam/gui/waitingforteam.gif"));
+		wpDimensions = waitTeamPic.getPreferredSize();
+		waitTeamPic.setBounds(0, 0, wpDimensions.width, wpDimensions.height);
+		waitForPlayersPane.add(waitTeamPic);
 		
 		//Set up end screen panel
 		endCard = new JPanel();
