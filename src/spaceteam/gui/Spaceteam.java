@@ -31,6 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -59,7 +62,7 @@ import spaceteam.shared.Widget;
 import spaceteam.database.HighScore;
 
 public class Spaceteam extends JFrame implements ActionListener, MouseListener{
-
+	
 	JPanel chatPane, healthPanel, controlPanel, timePanel, commandPanel, mainPane, cardsGeneral, gamePane,
 	waitForPlayersPane, waitForTeamPane, gameCard, endCard, iconSelect;
 	JPanelWithBackground startCard;
@@ -92,7 +95,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		setMinimumSize(new Dimension(800, 600));
 		setMaximumSize(new Dimension(800, 600));
 		setLocationRelativeTo(null);
-	    
+		
 		//create labels/text in order to set the font
 		enterUsername = new JLabel("Enter a username:");
 		username = new JTextField(15);
@@ -258,12 +261,14 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		userMessage.setWrapStyleWord(true);
 		JScrollPane userMessageJSP = new JScrollPane(userMessage);
 		userMessageJSP.setViewportView(userMessage);
+		userMessage.setEditable(false);
 		sendMessagePanel.add(userMessageJSP);
 		sendMessageBtn.setPreferredSize(new Dimension(80, 30));
 		sendMessageBtn.setForeground(Color.WHITE);
 		sendMessageBtn.setBackground(Color.BLACK);
 		sendMessageBtn.setOpaque(true);
 		sendMessageBtn.setBorderPainted(false);
+		sendMessageBtn.setEnabled(false);
 		sendMessagePanel.add(sendMessageBtn);
 		chatPane.add(sendMessagePanel, BorderLayout.SOUTH);
 		
@@ -455,6 +460,8 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	public void gameStarted() {
 		CardLayout cl = (CardLayout)(mainPane.getLayout());
 		cl.show(mainPane, GAME);
+		userMessage.setEditable(true);
+		sendMessageBtn.setEnabled(true);
 	}
 	
 	/**
