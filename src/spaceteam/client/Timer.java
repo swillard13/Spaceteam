@@ -19,7 +19,11 @@ public class Timer extends Thread {
 		try {
 			for(int i = 0; i < limit; i++) {
 				Thread.sleep(1000);
-				parent.updateTime(limit-i, limit);
+				if (on) {
+					parent.updateTime(limit-i, limit);
+				} else {
+					break;
+				}
 			}
 			
 			if (on) {
