@@ -16,7 +16,7 @@ public class HealthBar extends JPanel{
 	public HealthBar(){
 		try {
 			backgroundImage = ImageIO.read(new File("src/spaceteam/gui/spacestrip.jpeg"));
-			shipImage = ImageIO.read(new File ("src/spaceteam/gui/space-ship.jpg"));
+			shipImage = ImageIO.read(new File ("src/spaceteam/gui/space-ship.png"));
 			cometImage = ImageIO.read(new File ("src/spaceteam/gui/comet.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -33,11 +33,9 @@ public class HealthBar extends JPanel{
 		g.drawImage(backgroundImage, 0, 0, this);
 		
 		
-		g.drawImage(cometImage, 50 + health*45, 15, this);
-		
-		Graphics2D g2D = (Graphics2D) g;
-		g2D.rotate(Math.toRadians(45),50, 0);
-		g2D.drawImage(shipImage, 50, 0, this);
+		g.drawImage(cometImage, (10 - health) * 45, 15, this);
+
+		g.drawImage(shipImage, getWidth() - shipImage.getWidth(null), 0, this);
 	}
 
 	/**
