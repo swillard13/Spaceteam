@@ -28,7 +28,7 @@ public class GameThread extends Thread
 
   public static final int DASH_PIECES_PER_PLAYER = 6;
   private final int INITIAL_HEALTH = 10;
-  private final int INITIAL_COMMANDS = 20;
+  private final int INITIAL_COMMANDS = 3;
 
   private final Random RANDOM = new Random();
 
@@ -130,8 +130,8 @@ public class GameThread extends Thread
     while(true) {
       generateLevel();
       try {
-        lock.lock();
         while (!isLevelFinished());
+        lock.lock();
         condition.notifyAll();
         lock.unlock();
         if(!otherGame.isLevelFinished()) {
@@ -159,13 +159,13 @@ public class GameThread extends Thread
    * @see spaceteam.server.messages.game.Command
    */
   public void getNewCommand(PlayerThread playerThread) {
-    int playerNum = playerThread.getPlayer().getPlayerNum();
+    int playerNum = playerThread.getPlayer().getPlayerNum() == 0 ? 1 : 0;
     int widgetId;
-    if(RANDOM.nextInt(4) == 0) {
+    if(RANDOM.nextInt(2) == 0) {
       widgetId = RANDOM.nextInt(dashPieces.size());
     }
     else {
-      widgetId = RANDOM.nextInt((dashPieces.size() / 2) * (1 + playerNum));
+      widgetId = RANDOM.nextInt((dashPieces.size() / 2)) + dashPieces.size() / 2 * playerNum;
     }
     Widget widget = dashPieces.get(widgetId);
     int newValue = widget.getRandomValue();
