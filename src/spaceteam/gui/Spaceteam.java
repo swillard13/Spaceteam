@@ -51,6 +51,7 @@ import javax.swing.table.DefaultTableModel;
 
 import spaceteam.chat.ChatClient;
 import spaceteam.client.ClientThread;
+import spaceteam.server.GameThread;
 import spaceteam.server.Server;
 import spaceteam.server.messages.game.GameOverMessage;
 import spaceteam.shared.InteractionListener;
@@ -402,14 +403,20 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	/**
 	 * Creates the new level.
 	 */
-	public void createLevel(List<Widget> widgetList) {
+	public void createLevel(List<Widget> widgetList, boolean first) {
 		controlPanel.removeAll();
 		for (int i = 0; i < widgetList.size(); i++) {
 			Widget w = widgetList.get(i);
+			int id;
+			if(first) {
+				id = i;
+			} else {
+				id = i + GameThread.DASH_PIECES_PER_PLAYER;
+			}
 			w.addInteractionListener(new InteractionListener() {
 				@Override
-				public void interactionOccurred(Object value) {
-					client.piecePressed(i, (int)value);
+				public void interactionOccurred(int value) {
+					client.piecePressed(id, value);
 				}
 			});
 			controlPanel.add(w.getComponent());

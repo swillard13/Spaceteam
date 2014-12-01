@@ -60,10 +60,10 @@ public class ClientThread extends Thread {
 		timeLimit = start.getSeconds();
 		widgetList = start.getWidgetList();
 		if(start.getIfFirst()) {
-			parent.createLevel(widgetList.subList(0, GameThread.DASH_PIECES_PER_PLAYER));
+			parent.createLevel(widgetList.subList(0, GameThread.DASH_PIECES_PER_PLAYER), true);
 		} else {
 			parent.createLevel(widgetList.subList(GameThread.DASH_PIECES_PER_PLAYER, 
-					2*GameThread.DASH_PIECES_PER_PLAYER));
+					2*GameThread.DASH_PIECES_PER_PLAYER), false);
 		}
 	}
 	
