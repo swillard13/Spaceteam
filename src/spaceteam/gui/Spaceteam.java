@@ -156,11 +156,12 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		mainPane = new JPanel(new CardLayout());
 		mainPane.setSize(550, 600);
 		
+		//set up "Waiting for other players card" using JPanel w/ ImageIcon rather than JPanelWithBackground to enable animation
 		waitForPlayersPane = new JPanel(null);
-		waitPlayers = new JLabel("Waiting for Other Players");
-		wpDimensions = waitPlayers.getPreferredSize();
-		waitPlayers.setBounds(150, 25, wpDimensions.width, wpDimensions.height);
-		waitForPlayersPane.add(waitPlayers);
+		JLabel pic = new JLabel(new ImageIcon("src/spaceteam/gui/waitingforplayers.gif"));
+		wpDimensions = pic.getPreferredSize();
+		pic.setBounds(0, 0, wpDimensions.width, wpDimensions.height);
+		waitForPlayersPane.add(pic);
 		
 		gamePane = new JPanel();
 		gamePane.setLayout(new BoxLayout(gamePane, BoxLayout.Y_AXIS));
