@@ -22,6 +22,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -36,6 +37,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -48,6 +50,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.EmptyBorder;
@@ -306,6 +309,20 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 			}
 		});
 		
+		KeyStroke enter = KeyStroke.getKeyStroke("released ENTER");
+		userMessage.getInputMap().put(enter, "none");
+		userMessage.getInputMap().put(enter, "send message");
+		userMessage.getActionMap().put("send message", new AbstractAction("send message") {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!(userMessage.getText().equals(""))) {
+					userMessage.setText(userMessage.getText().substring(0, userMessage.getText().length()-1));
+					sendMessageBtn.doClick();
+				}	
+			}
+		});
+		
+		
+		
 		//add components to the window
 		cardsGeneral.add(startCard, START);
 		
@@ -330,7 +347,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		CardLayout cl = (CardLayout)(cardsGeneral.getLayout());
 		cl.show(cardsGeneral, START);
 		
-		mainPane.getRootPane().setDefaultButton(sendMessageBtn);
 		startCard.getRootPane().setDefaultButton(continueButton);
 	}
 	
