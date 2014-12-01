@@ -203,9 +203,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
         endCard.add(highScoresLabel, BorderLayout.CENTER);
         
         highScoresTable = new JTable (new DefaultTableModel(new Object[] {"Score", "Player 1", "Player 2"},0) {
-            /**
-             *
-             */
             private static final long serialVersionUID = 1L;
             
             @Override
@@ -237,9 +234,8 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		commandPanel.add(commandText);
 		
 		//set up time remaining bar
-		timePanel = new JPanel();
+		timePanel = new TimeBar();
 		timePanel.setPreferredSize(new Dimension(540, 50));
-		timePanel.setBackground(Color.YELLOW);
 		
 		//set up controls
 		controlPanel = new JPanel();
@@ -377,6 +373,15 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	}
 	
 	/**
+	 * Update the time to show how much time is left.
+	 * @param current the time remaining
+	 * @param total the total time
+	 */
+	public void updateTime(int current, int total) {
+		((TimeBar)timePanel).currentTimeRemaining(current, total);
+	}
+	
+	/**
 	 * Changes the screen to say game over and displays high scores.
 	 */
 	public void endGame(GameOverMessage over) {
@@ -481,9 +486,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		client.start();
 	}
 
-	public void updateTime(int current, int total) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

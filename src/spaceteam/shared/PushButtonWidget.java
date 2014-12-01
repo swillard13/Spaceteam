@@ -27,7 +27,7 @@ public class PushButtonWidget extends AbstractWidget {
 
 	@Override
 	public int getRandomValue() {
-		return 0;
+		return 1;
 	}
 
 }
