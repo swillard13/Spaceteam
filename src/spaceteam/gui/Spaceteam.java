@@ -19,6 +19,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -123,6 +124,33 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		     //Handle exception
 		}
 		
+		//load icons
+		icons = new ArrayList<JLabel>();
+		ImageIcon imgicon = new ImageIcon("src/spaceteam/gui/avatar1.png");
+		Image img = imgicon.getImage();
+		img = img.getScaledInstance(65, 65, 0);
+		icons.add(new JLabel(new ImageIcon(img)));
+		imgicon = new ImageIcon("src/spaceteam/gui/avatar2.png");
+		img = imgicon.getImage();
+		img = img.getScaledInstance(65, 65, 0);
+		icons.add(new JLabel(new ImageIcon(img)));
+		imgicon = new ImageIcon("src/spaceteam/gui/avatar3.png");
+		img = imgicon.getImage();
+		img = img.getScaledInstance(65, 65, 0);
+		icons.add(new JLabel(new ImageIcon(img)));
+		imgicon = new ImageIcon("src/spaceteam/gui/avatar4.png");
+		img = imgicon.getImage();
+		img = img.getScaledInstance(65, 65, 0);
+		icons.add(new JLabel(new ImageIcon(img)));
+		imgicon = new ImageIcon("src/spaceteam/gui/avatar5.png");
+		img = imgicon.getImage();
+		img = img.getScaledInstance(65, 65, 0);
+		icons.add(new JLabel(new ImageIcon(img)));
+		imgicon = new ImageIcon("src/spaceteam/gui/avatar6.png");
+		img = imgicon.getImage();
+		img = img.getScaledInstance(65, 65, 0);
+		icons.add(new JLabel(new ImageIcon(img)));
+		
 		cardsGeneral = new JPanel(new CardLayout());
 		
 		//Set up starting screen panel
@@ -137,18 +165,14 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		username.setBounds(77, 470, un.width, un.height);
 		startCard.add(username);
 		iconSelect = new JPanel(new GridLayout(2,3));
-		icons = new ArrayList<JLabel>();
 		for(int i = 0; i < 6; i++){
-			JLabel temp = new JLabel("temp");
-			temp.setBackground(Color.blue);
-			icons.add(temp);
-			iconSelect.add(temp);
+			iconSelect.add(icons.get(i));
 		}
 		Dimension iconSelectDimension = iconSelect.getPreferredSize();
 		iconSelect.setBounds(480, 420, iconSelectDimension.width, iconSelectDimension.height);
 		startCard.add(iconSelect);
 		
-		continueButton = new JButton("Spaceteam");
+		continueButton = new JButton("Continue");
 		continueButton.addActionListener(this);
 		contDimensions = continueButton.getPreferredSize();
 		continueButton.setBounds(360, 540, contDimensions.width, contDimensions.height);
