@@ -211,7 +211,9 @@ public class GameThread extends Thread
     player2Thread.interrupt();
     player1.terminate();
     player2.terminate();
+    lock.lock();
     condition.notifyAll();
+    lock.unlock();
   }
 
   /**
@@ -249,19 +251,16 @@ public class GameThread extends Thread
      * Waits for messages from client and executes the message.
      */
     public void run() {
-      try {
-        while(true) {
-          try {
-            executeMessage(player.getIn().readObject());
-          }
-          catch(IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-          }
+      while(true) {
+        try {
+          executeMessage(player.getIn().readObject());
         }
-      }
-      catch(Exception e) {
-        gameThread.triggerGameOver(false);
-        otherGame.triggerGameOver(true);
+        catch(IOException | ClassNotFoundException e) {
+//          e.printStackTrace();
+          gameThread.triggerGameOver(false);
+          otherGame.triggerGameOver(true);
+          return;
+        }
       }
     }
 

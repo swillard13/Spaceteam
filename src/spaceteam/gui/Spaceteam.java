@@ -407,7 +407,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		controlPanel.removeAll();
 		for (int i = 0; i < widgetList.size(); i++) {
 			Widget w = widgetList.get(i);
-			int id;
+			final int id;
 			if(first) {
 				id = i;
 			} else {

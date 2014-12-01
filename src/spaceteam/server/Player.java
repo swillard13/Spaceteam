@@ -32,7 +32,7 @@ public class Player
    */
   public synchronized void sendMessage(Message message) {
     try {
-      if(socket.isConnected()) {
+      if(!socket.isClosed()) {
         out.writeObject(message);
         out.flush();
       }
