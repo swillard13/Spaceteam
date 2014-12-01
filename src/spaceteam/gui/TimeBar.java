@@ -27,7 +27,7 @@ public class TimeBar extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		int width = this.getWidth();
-		int timeRemaining = currentTime/totalTime * width;
+		int timeRemaining = (int) ((double)currentTime/(double)totalTime * width);
 		
 		g.setColor(Color.YELLOW);
 		g.drawRect(0, 0, timeRemaining, this.getHeight());
