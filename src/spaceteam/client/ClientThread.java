@@ -99,6 +99,7 @@ public class ClientThread extends Thread {
 				widgetList.get(c.getWidgetId()).getName() + " to " + c.getValue();
 		parent.displayCommand(s);
 		tt = new Timer(this, timeLimit);
+		tt.start();
 	}
 	
 	/**
