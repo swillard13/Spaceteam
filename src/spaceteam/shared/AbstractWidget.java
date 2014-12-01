@@ -53,7 +53,7 @@ public abstract class AbstractWidget implements Widget {
 		listeners.remove(listener);
 	}
 	
-	protected void interactionOccurred(Object value) {
+	protected void interactionOccurred(int value) {
 		for (InteractionListener listener : listeners) {
 			listener.interactionOccurred(value);
 		}

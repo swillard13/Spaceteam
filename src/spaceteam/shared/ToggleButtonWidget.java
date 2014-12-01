@@ -20,7 +20,7 @@ public class ToggleButtonWidget extends AbstractWidget {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				interactionOccurred(button.isSelected());
+				interactionOccurred(button.isSelected() ? 1 : 0);
 			}	
 		});
 		return button;

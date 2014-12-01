@@ -2,6 +2,6 @@ package spaceteam.shared;
 
 public interface InteractionListener {
 
-	void interactionOccurred(Object value);
+	void interactionOccurred(int value);
 	
 }

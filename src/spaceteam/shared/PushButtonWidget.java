@@ -19,7 +19,7 @@ public class PushButtonWidget extends AbstractWidget {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				interactionOccurred(true);
+				interactionOccurred(1);
 			}		
 		});
 		return button;
