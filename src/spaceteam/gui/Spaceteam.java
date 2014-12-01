@@ -12,6 +12,7 @@ package spaceteam.gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -52,6 +53,7 @@ import spaceteam.chat.ChatClient;
 import spaceteam.client.ClientThread;
 import spaceteam.server.Server;
 import spaceteam.server.messages.game.GameOverMessage;
+import spaceteam.shared.InteractionListener;
 import spaceteam.shared.Widget;
 import spaceteam.database.HighScore;
 
@@ -401,8 +403,16 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 */
 	public void createLevel(List<Widget> widgetList) {
 		controlPanel.removeAll();
-		for (Widget w : widgetList) {
+		for (int i = 0; i < widgetList.size(); i++) {
+			Widget w = widgetList.get(i);
+			w.addInteractionListener(new InteractionListener() {
+				@Override
+				public void interactionOccurred(Object value) {
+					client.piecePressed(i, (int)value);
+				}
+			});
 			controlPanel.add(w.getComponent());
+			
 		}
 		
 		//TODO add appropriate action listeners to send client info on move
