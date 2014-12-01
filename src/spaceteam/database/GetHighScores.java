@@ -22,7 +22,7 @@ public class GetHighScores extends SQLCommand {
 			Class.forName(super.DRIVER).newInstance();
 			Connection conn = DriverManager.getConnection(super.DB_ADDRESS + super.DB_NAME, super.USER, super.PASSWORD);
 			
-			String numRacesSQL = "SELECT * FROM high_scores GROUP BY score ORDER BY score DESC LIMIT 5";
+			String numRacesSQL = "SELECT * FROM high_scores GROUP BY score, player_1, player_2 ORDER BY score DESC LIMIT 5";
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(numRacesSQL);
 			

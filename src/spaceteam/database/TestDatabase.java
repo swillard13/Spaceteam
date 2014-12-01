@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class TestDatabase {
 	public static void main (String[] args) {
 //		dd.addHighScore(new HighScore(500, "Bonnie", "Clyde"));
-//		dd.addHighScore(new HighScore(400, "Batman", "Robin"));
+		DatabaseDriver.addHighScore(new HighScore(40, "Batman", "Robin"));
 //		dd.addHighScore(new HighScore (250, "Elastagirl", "Mr. Incredible"));
 //		dd.addHighScore(new HighScore (200, "Player 1", "Player 2"));
 //		dd.addHighScore(new HighScore(300, "Belle", "Beast"));
@@ -24,13 +24,13 @@ public class TestDatabase {
 //		}
 		
 		//get random controls
-		for (int i = 0; i < 5; i++) {
-			ArrayList<GetRandomControl.Control> controlData = DatabaseDriver.getRandomControl();
-			for (GetRandomControl.Control c : controlData) {
-				System.out.print(c.getControlName());
-				System.out.println(c.getCommandVerb());
-			}
-			System.out.println();
-		}
+//		for (int i = 0; i < 5; i++) {
+//			ArrayList<GetRandomControl.Control> controlData = DatabaseDriver.getRandomControl();
+//			for (GetRandomControl.Control c : controlData) {
+//				System.out.print(c.getControlName());
+//				System.out.println(c.getCommandVerb());
+//			}
+//			System.out.println();
+//		}
 	}
 }
