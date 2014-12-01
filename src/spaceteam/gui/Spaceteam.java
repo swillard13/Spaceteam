@@ -110,7 +110,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		try {
 			GraphicsEnvironment ge = 
 			GraphicsEnvironment.getLocalGraphicsEnvironment();
-			//font = Font.createFont(Font.TRUETYPE_FONT, new File("src/armata-regular-webfont.ttf"));
 			font = Font.createFont(Font.TRUETYPE_FONT, new File("src/spaceteam/gui/armata-regular-webfont.ttf"));
 			ge.registerFont(font);
 			font = font.deriveFont(Font.PLAIN,20);
@@ -127,7 +126,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		cardsGeneral = new JPanel(new CardLayout());
 		
 		//Set up starting screen panel
-		//startCard = new JPanelWithBackground("src/spaceteamsplash1.jpg");
 		startCard = new JPanelWithBackground("src/spaceteam/gui/spaceteamsplash1.jpg");
 		startCard.setLayout(null);
 		enterUsername.setForeground(Color.white);
@@ -217,7 +215,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		
 		
 		//set up health bar
-		//healthPanel = new JPanelWithBackground("src/spacestrip.jpeg");
 		healthPanel = new HealthBar();
 		healthPanel.setPreferredSize(new Dimension(540, 100));
 		
