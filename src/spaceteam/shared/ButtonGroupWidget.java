@@ -15,27 +15,19 @@ public class ButtonGroupWidget extends AbstractWidget {
 	
 	private static final long serialVersionUID = 8018745708854762833L;
 
-	private static final int FIRST_VALUE_MASK = 0b000111;
-	private static final int SECOND_VALUE_MASK = 0b111000;
+	private static final int MIN_MASK = 0b00011;
+	private static final int RANGE_MASK = 0b11100;
 	
 	public ButtonGroupWidget(String name, String verb) {
 		super(name, verb);
 	}
-
-	protected int getFirstValue() {
-		return getRandomBits() & FIRST_VALUE_MASK;
-	}
-	
-	protected int getSecondValue() {
-		return ((getRandomBits() & SECOND_VALUE_MASK) >> 3) + 1;
-	}
 	
 	public int getMin() {
-		return Math.min(getFirstValue(), getSecondValue());
+		return getRandomBits() & MIN_MASK;
 	}
 	
 	public int getMax() {
-		return Math.max(getFirstValue(), getSecondValue());
+		return getMin() + ((getRandomBits() & RANGE_MASK) >> 2) + 1;
 	}
 	
 	@Override
