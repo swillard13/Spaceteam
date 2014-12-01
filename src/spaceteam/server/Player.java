@@ -68,9 +68,9 @@ public class Player
    */
   public void terminate() {
     try {
-      out.close();
-      in.close();
-      socket.close();
+      if(!socket.isClosed()) {
+        socket.close();
+      }
     }
     catch(IOException e) {
       e.printStackTrace();

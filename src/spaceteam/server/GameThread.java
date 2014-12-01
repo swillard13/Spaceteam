@@ -79,6 +79,7 @@ public class GameThread extends Thread
     player2Pieces.addAll(dashPieces);
     player1.sendMessage(new LevelStart(player1Pieces, commandTime, true));
     player2.sendMessage(new LevelStart(player2Pieces, commandTime, false));
+    sendAllMessage(new HealthMessage(health));
     getNewCommand(player1Thread);
     getNewCommand(player2Thread);
   }
@@ -219,6 +220,7 @@ public class GameThread extends Thread
     player2Thread.interrupt();
     player1.terminate();
     player2.terminate();
+
     lock.lock();
     condition.notifyAll();
     lock.unlock();
@@ -305,13 +307,13 @@ public class GameThread extends Thread
       else if(obj instanceof Command) {
         Command command = (Command) obj;
         if(command.equals(currCommand)) {
-          score++;
+          score += 10 * level;
           if(!gameThread.decrementCommands()) {
             gameThread.getNewCommand(this);
           }
         }
         else if(command.equals(teammate.getCurrCommand())) {
-          score++;
+          score += 10 * level;
           if(!gameThread.decrementCommands()) {
             gameThread.getNewCommand(teammate);
           }
