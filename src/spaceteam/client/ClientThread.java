@@ -191,7 +191,7 @@ public class ClientThread extends Thread {
 	}
 
 	public void updateTime(int current, int total) {
-		parent.updateTime(current, total);	
+		parent.updateTime(current, total);
 	}
 
 }

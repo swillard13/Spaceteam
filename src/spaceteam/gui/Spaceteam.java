@@ -397,13 +397,17 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 * signal to start a new level.
 	 */
 	public void completeLevel() {
-		// TODO Auto-generated method stub
+		//TODO change to a card that says waiting for other team
+		CardLayout cl = (CardLayout)(mainPane.getLayout());
+		cl.show(mainPane, GAME);
 	}
 	
 	/**
 	 * Creates the new level.
 	 */
 	public void createLevel(List<Widget> widgetList, boolean first) {
+		CardLayout cl = (CardLayout)(mainPane.getLayout());
+		cl.show(mainPane, GAME);
 		controlPanel.removeAll();
 		for (int i = 0; i < widgetList.size(); i++) {
 			Widget w = widgetList.get(i);
@@ -453,8 +457,8 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 * Begins the game.
 	 */
 	public void gameStarted() {
-		CardLayout cl = (CardLayout)(mainPane.getLayout());
-		cl.show(mainPane, GAME);
+		//TODO: Implement countdown and teammate notification
+		//For now do nothing
 	}
 	
 	/**
