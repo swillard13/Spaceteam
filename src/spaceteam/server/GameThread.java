@@ -4,11 +4,7 @@ import spaceteam.database.DatabaseDriver;
 import spaceteam.database.GetRandomControl;
 import spaceteam.database.HighScore;
 import spaceteam.server.messages.Message;
-import spaceteam.server.messages.game.Command;
-import spaceteam.server.messages.game.GameOverMessage;
-import spaceteam.server.messages.game.HealthMessage;
-import spaceteam.server.messages.game.LevelStart;
-import spaceteam.server.messages.game.TimeRunOut;
+import spaceteam.server.messages.game.*;
 import spaceteam.shared.AbstractWidget;
 import spaceteam.shared.Widget;
 
@@ -132,10 +128,12 @@ public class GameThread extends Thread
       try {
         while (!isLevelFinished());
         lock.lock();
-        condition.notifyAll();
+        condition.await();
         lock.unlock();
         if(!otherGame.isLevelFinished()) {
+          otherGame.getLock().lock();
           otherGame.getCondition().await();
+          otherGame.getLock().unlock();
         }
       }
       catch(InterruptedException e) {
@@ -150,6 +148,13 @@ public class GameThread extends Thread
    */
   public int getCommandTime() {
     return 10 - (int) Math.sqrt(level) + 6;
+  }
+
+  public void triggerLevelFinish() {
+    lock.lock();
+    condition.signalAll();
+    lock.unlock();
+    sendAllMessage(new LevelFinish());
   }
 
   /**
@@ -183,6 +188,9 @@ public class GameThread extends Thread
 	try {
 		commandsLock.lock();
 		commandsRemaining--;
+    if(commandsRemaining == 0) {
+      triggerLevelFinish();
+    }
 		return commandsRemaining == 0;
 	} finally {
 		commandsLock.unlock();
