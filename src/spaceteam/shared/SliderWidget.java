@@ -26,7 +26,9 @@ public class SliderWidget extends AbstractWidget {
 	}
 	
 	public int getMax() {
-		return (getRandomBits() & MAX_VALUE_MASK) >> 1 + 1;
+		int temp = (getRandomBits() & MAX_VALUE_MASK) >> 1 + 1;
+		System.out.println(temp);
+		return temp;
 	}
 	
 	public int getOrientation() {
