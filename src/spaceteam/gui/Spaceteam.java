@@ -31,6 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -59,7 +62,7 @@ import spaceteam.shared.Widget;
 import spaceteam.database.HighScore;
 
 public class Spaceteam extends JFrame implements ActionListener, MouseListener{
-
+	
 	JPanel chatPane, healthPanel, controlPanel, timePanel, commandPanel, mainPane, cardsGeneral, gamePane,
 	waitForPlayersPane, waitForTeamPane, gameCard, endCard, iconSelect;
 	JPanelWithBackground startCard;
@@ -92,7 +95,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		setMinimumSize(new Dimension(800, 600));
 		setMaximumSize(new Dimension(800, 600));
 		setLocationRelativeTo(null);
-	    
+		
 		//create labels/text in order to set the font
 		enterUsername = new JLabel("Enter a username:");
 		username = new JTextField(15);
@@ -195,9 +198,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
         endCard.add(highScoresLabel, BorderLayout.CENTER);
         
         highScoresTable = new JTable (new DefaultTableModel(new Object[] {"Score", "Player 1", "Player 2"},0) {
-            /**
-             *
-             */
             private static final long serialVersionUID = 1L;
             
             @Override
@@ -229,9 +229,8 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		commandPanel.add(commandText);
 		
 		//set up time remaining bar
-		timePanel = new JPanel();
+		timePanel = new TimeBar();
 		timePanel.setPreferredSize(new Dimension(540, 50));
-		timePanel.setBackground(Color.YELLOW);
 		
 		//set up controls
 		controlPanel = new JPanel();
@@ -258,12 +257,14 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		userMessage.setWrapStyleWord(true);
 		JScrollPane userMessageJSP = new JScrollPane(userMessage);
 		userMessageJSP.setViewportView(userMessage);
+		userMessage.setEditable(false);
 		sendMessagePanel.add(userMessageJSP);
 		sendMessageBtn.setPreferredSize(new Dimension(80, 30));
 		sendMessageBtn.setForeground(Color.WHITE);
 		sendMessageBtn.setBackground(Color.BLACK);
 		sendMessageBtn.setOpaque(true);
 		sendMessageBtn.setBorderPainted(false);
+		sendMessageBtn.setEnabled(false);
 		sendMessagePanel.add(sendMessageBtn);
 		chatPane.add(sendMessagePanel, BorderLayout.SOUTH);
 		
@@ -367,6 +368,15 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	}
 	
 	/**
+	 * Update the time to show how much time is left.
+	 * @param current the time remaining
+	 * @param total the total time
+	 */
+	public void updateTime(int current, int total) {
+		((TimeBar)timePanel).currentTimeRemaining(current, total);
+	}
+	
+	/**
 	 * Changes the screen to say game over and displays high scores.
 	 */
 	public void endGame(GameOverMessage over) {
@@ -426,8 +436,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 			controlPanel.add(w.getComponent());
 			
 		}
-		
-		//TODO add appropriate action listeners to send client info on move
 	}
 	
 	/**
@@ -459,6 +467,9 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	public void gameStarted() {
 		//TODO: Implement countdown and teammate notification
 		//For now do nothing
+
+		userMessage.setEditable(true);
+		sendMessageBtn.setEnabled(true);
 	}
 	
 	/**
@@ -471,9 +482,6 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		client.start();
 	}
 
-	public void updateTime(int current, int total) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }
