@@ -165,7 +165,7 @@ public class ClientThread extends Thread {
 		try {
 			while (true) {
 				Object obj = ois.readObject();
-				System.out.println(obj);
+
 				if (obj instanceof Command) {
 					setCommand((Command) obj);
 				} else if (obj instanceof LevelStart) {
