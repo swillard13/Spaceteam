@@ -14,7 +14,7 @@ public class SliderWidget extends AbstractWidget {
 	private static final long serialVersionUID = -447416336403303896L;
 
 	private static final int MIN_VALUE_MASK =   0b00001;
-	private static final int MAX_VALUE_MASK =   0b01110;
+	private static final int RANGE_MASK =   0b01110;
 	private static final int ORIENTATION_MASK = 0b10000;
 
 	public SliderWidget(String name, String verb) {
@@ -26,7 +26,7 @@ public class SliderWidget extends AbstractWidget {
 	}
 	
 	public int getMax() {
-		return ((getRandomBits() & MAX_VALUE_MASK) >> 1) + 1;
+		return getMin() + ((getRandomBits() & RANGE_MASK) >> 1) + 1;
 	}
 	
 	public int getOrientation() {
