@@ -60,7 +60,7 @@ public class SliderWidget extends AbstractWidget {
 
 	@Override
 	public int getRandomValue() {
-		return RANDOM.nextInt(getMax()) + getMin();
+		return RANDOM.nextInt(getMax() - getMin()) + getMin();
 	}
 
 }
