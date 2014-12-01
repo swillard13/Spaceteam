@@ -126,7 +126,6 @@ public class GameThread extends Thread
     while(true) {
       generateLevel();
       try {
-        while (!isLevelFinished());
         lock.lock();
         condition.await();
         lock.unlock();
@@ -155,6 +154,7 @@ public class GameThread extends Thread
     condition.signalAll();
     lock.unlock();
     sendAllMessage(new LevelFinish());
+    System.out.println("Level Finished");
   }
 
   /**
@@ -230,7 +230,7 @@ public class GameThread extends Thread
     player2.terminate();
 
     lock.lock();
-    condition.notifyAll();
+    condition.signalAll();
     lock.unlock();
   }
 
