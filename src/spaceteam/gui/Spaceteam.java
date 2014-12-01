@@ -86,6 +86,7 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	static final String GAMEPLAY = "Gameplay";
 	static final String END = "End Screen";
 	static final String GAME = "Game";
+	static final String WAIT_TEAM = "Waiting for Other Team";
 	
 	public Spaceteam(){
 		//setup main window
@@ -164,16 +165,20 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		
 		//set up "Waiting for other players card" using JPanel w/ ImageIcon rather than JPanelWithBackground to enable animation
 		waitForPlayersPane = new JPanel(null);
-		JLabel pic = new JLabel(new ImageIcon("src/spaceteam/gui/waitingforplayers.gif"));
-		wpDimensions = pic.getPreferredSize();
-		pic.setBounds(0, 0, wpDimensions.width, wpDimensions.height);
-		waitForPlayersPane.add(pic);
+		JLabel waitPlayersPic = new JLabel(new ImageIcon("src/spaceteam/gui/waitingforplayers.gif"));
+		wpDimensions = waitPlayersPic.getPreferredSize();
+		waitPlayersPic.setBounds(0, 0, wpDimensions.width, wpDimensions.height);
+		waitForPlayersPane.add(waitPlayersPic);
 		
 		gamePane = new JPanel();
 		gamePane.setLayout(new BoxLayout(gamePane, BoxLayout.Y_AXIS));
 		
+		//Set up "waiting for other team" card when Level is completed by one team.
 		waitForTeamPane = new JPanel(null);
-		
+		JLabel waitTeamWords = new JLabel("Waiting for other team...");
+		wpDimensions = waitTeamWords.getPreferredSize();
+		waitTeamWords.setBounds(200, 100, wpDimensions.width, wpDimensions.height);
+		waitForTeamPane.add(waitTeamWords);
 		
 		//Set up end screen panel
 		endCard = new JPanel();
@@ -407,9 +412,9 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 	 * signal to start a new level.
 	 */
 	public void completeLevel() {
-		//TODO change to a card that says waiting for other team
+		// TODO Auto-generated method stub
 		CardLayout cl = (CardLayout)(mainPane.getLayout());
-		cl.show(mainPane, GAME);
+		cl.show(mainPane, WAIT_TEAM);
 	}
 	
 	/**
