@@ -31,8 +31,9 @@ public class TimeBar extends JPanel {
 		if(totalTime == 0) {
 			timeRemaining = 0;
 		} else {
-			timeRemaining = currentTime/totalTime * width;
+			timeRemaining = (int) ((double)currentTime/(double)totalTime * width);
 		}
+
 		g.setColor(Color.YELLOW);
 		g.drawRect(0, 0, timeRemaining, this.getHeight());
 	}

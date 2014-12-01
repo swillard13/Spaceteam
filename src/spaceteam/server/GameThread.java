@@ -44,6 +44,7 @@ public class GameThread extends Thread
   private int commandsRemaining;
 
   private Lock lock = new ReentrantLock();
+  private Lock commandsLock = new ReentrantLock();
   private Condition condition = lock.newCondition();
   private List<Widget> dashPieces;
 
@@ -78,6 +79,7 @@ public class GameThread extends Thread
     player2Pieces.addAll(dashPieces);
     player1.sendMessage(new LevelStart(player1Pieces, commandTime, true));
     player2.sendMessage(new LevelStart(player2Pieces, commandTime, false));
+    sendAllMessage(new HealthMessage(health));
     getNewCommand(player1Thread);
     getNewCommand(player2Thread);
   }
@@ -104,7 +106,12 @@ public class GameThread extends Thread
    * @return <code>true</code> if the level is finished, <code>false</code> otherwise
    */
   public boolean isLevelFinished() {
-    return commandsRemaining == 0;
+	try {
+		commandsLock.lock();
+		return commandsRemaining == 0;
+	} finally {
+		commandsLock.unlock();
+	}
   }
 
   /**
@@ -124,7 +131,8 @@ public class GameThread extends Thread
       generateLevel();
       try {
         lock.lock();
-        condition.await();
+        while (!isLevelFinished());
+        condition.notifyAll();
         lock.unlock();
         if(!otherGame.isLevelFinished()) {
           otherGame.getCondition().await();
@@ -172,12 +180,13 @@ public class GameThread extends Thread
    * @return <code>true</code> if the level has ended, <code>false</code> otherwise
    */
   public synchronized boolean decrementCommands() {
-    commandsRemaining--;
-    if(commandsRemaining == 0) {
-      condition.notifyAll();
-      return true;
-    }
-    return false;
+	try {
+		commandsLock.lock();
+		commandsRemaining--;
+		return commandsRemaining == 0;
+	} finally {
+		commandsLock.unlock();
+	}
   }
 
   /**
@@ -211,6 +220,7 @@ public class GameThread extends Thread
     player2Thread.interrupt();
     player1.terminate();
     player2.terminate();
+
     lock.lock();
     condition.notifyAll();
     lock.unlock();
@@ -297,13 +307,13 @@ public class GameThread extends Thread
       else if(obj instanceof Command) {
         Command command = (Command) obj;
         if(command.equals(currCommand)) {
-          score++;
+          score += 10 * level;
           if(!gameThread.decrementCommands()) {
             gameThread.getNewCommand(this);
           }
         }
         else if(command.equals(teammate.getCurrCommand())) {
-          score++;
+          score += 10 * level;
           if(!gameThread.decrementCommands()) {
             gameThread.getNewCommand(teammate);
           }
