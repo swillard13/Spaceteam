@@ -190,4 +190,9 @@ public class ClientThread extends Thread {
 		}
 	}
 
+	public void updateTime(int current, int total) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
