@@ -467,4 +467,9 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 		client.start();
 	}
 
+	public void updateTime(int current, int total) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
