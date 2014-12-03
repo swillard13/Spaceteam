@@ -24,7 +24,7 @@ public class GameThread extends Thread
 
   public static final int DASH_PIECES_PER_PLAYER = 6;
   private final int INITIAL_HEALTH = 10;
-  private final int INITIAL_COMMANDS = 3;
+  private final int INITIAL_COMMANDS = 10;
 
   private final Random RANDOM = new Random();
 
@@ -154,7 +154,6 @@ public class GameThread extends Thread
     condition.signalAll();
     lock.unlock();
     sendAllMessage(new LevelFinish());
-    System.out.println("Level Finished");
   }
 
   /**

@@ -136,9 +136,9 @@ public class Spaceteam extends JFrame implements ActionListener, MouseListener{
 			ImageIcon imgicon = new ImageIcon("src/spaceteam/gui/avatar" + Integer.toString(i) + ".png");
 			Image img = imgicon.getImage();
 			img = img.getScaledInstance(65, 65, 0);
-			JButton button = new JButton(new ImageIcon(img));
+			final JButton button = new JButton(new ImageIcon(img));
 			button.setPreferredSize(new Dimension(65, 65));
-			int temp = i;
+			final int temp = i;
 			button.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent ae)
 				{
